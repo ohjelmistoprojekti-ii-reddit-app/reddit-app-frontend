@@ -27,3 +27,12 @@ sequenceDiagram
     Flask backend -->> React frontend: JSON response
     React frontend ->> Browser: Page render
 ```
+
+## UI layout
+A front page sketch of trending Reddit topics ideated by the development team and produced using ChatGPT.  
+- **Trending posts** page showing top Reddit topics and displaying their sentiment based on public discussion
+- **Map view** available to navigate the world map to discover the most discussed topics geographically
+- **Topic search** for text search on the desired Reddit topic
+- **Sign in - Sign out** for user login  
+
+![UI demo layout](./assets/ui_layout.png)
