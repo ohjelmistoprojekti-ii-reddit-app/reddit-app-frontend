@@ -28,6 +28,24 @@ Run the development server:
 npm run dev
 ```
 
+## Project structure suggestion
+A best practice Next.js project structure by Binaya Bajracharya shared on [DEV Community](https://dev.to/bajrayejoon/best-practices-for-organizing-your-nextjs-15-2025-53ji) that we could follow:
+```
+src/
+├── app/                   # App Router
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Homepage
+│   └── (routes)/          # Grouped routes
+├── components/            # Shared components
+│   ├── ui/                # UI components
+│   └── features/          # Feature-specific components
+├── lib/                   # Utility functions
+├── hooks/                 # Custom React hooks
+├── styles/                # Global styles
+├── types/                 # TypeScript type definitions
+└── context/               # React Context providers
+```
+
 ## Next.js file based routing
 For example:
 ```
