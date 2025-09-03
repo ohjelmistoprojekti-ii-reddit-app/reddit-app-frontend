@@ -22,16 +22,31 @@ Install dependencies:
 npm install
 ```
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+
+## Next.js file based routing
+For example:
+```
+app (rendered at route -> '/')
+├── layout.tsx (required root layout)
+├── page.tsx (UI rendered at a specific route)
+|   
+└── topics (rendered at route -> '/topics')
+    ├── layout.tsx (optional for nested routes) 
+    ├── page.tsx
+    │
+    └── [id] (dynamically rendered at route -> '/topics/[id]')
+        └── page.tsx
+```
+
+## Server vs client components
+Layouts and pages are server components by default. Data fetching and API connections can be executed using server components. It's best practice to use client components for components that require user interactivity involving state or event handlers e.g. onClick/onChange. Use client directive to declare component to rendered on the client side:
+```typescript
+"use client";
 ```
 
 ## Next.js docs
@@ -59,4 +74,4 @@ A front page sketch of trending Reddit topics ideated by the development team an
 - **Topic search** for text search on the desired Reddit topic
 - **Sign in - Sign out** for user login  
 
-![UI demo layout](/images/ui_layout.png)
+![UI demo layout](./public/images/ui_layout.png)
