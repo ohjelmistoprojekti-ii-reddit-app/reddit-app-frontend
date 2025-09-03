@@ -12,7 +12,7 @@ This is the frontend service for a web application that:
 - **Language:** TypeScript
 - **Framework:** Next.js   
 - **UI library:** Shadcn/ui to utilize customizable components
-- **Data handling:** TanStack Query or Axios
+- **API calls:** Axios
 
 ## Usage
 
