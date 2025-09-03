@@ -71,6 +71,23 @@ Layouts and pages are server components by default. Data fetching and API connec
 
 - [Next.js Documentation](https://nextjs.org/docs)
 
+## Shadcn/ui components
+- [shadcn/ui library components](https://ui.shadcn.com/docs/components)
+
+Already installed and reusable shadcn components can be found at:
+```
+src 
+└── components
+    └── ui
+        ├── card.tsx
+        └── ...
+```
+Install new components by choosing one from the shadcn library and executing:
+```bash
+npx shadcn@latest add ${componentName}
+```
+Newly installed components will appear in the components/ui -folder.
+
 ## Basic architecture plan
 The frontend application handles the UI and user interaction using React. Frontend fetches and posts data via REST APIs exposed by Flask backend.
 
