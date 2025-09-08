@@ -1,10 +1,14 @@
 import TrendingTopics from "@/components/features/topic/TrendingTopics";
+import FilterableGrid from "@/components/features/topic/FilterableGrid";
+import { getTopics } from "@/lib/api/getTopics";
 
-export default function Home() {
+export default async function Home() {
+  const topics = await getTopics();
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1 className="text-3xl font-bold">Hello world</h1>
-      <TrendingTopics />
+    <div className="flex flex-col items-center w-full p-10">
+      {/* <TrendingTopics /> */}
+      <FilterableGrid topics={topics}/>
     </div>
   );
 }
