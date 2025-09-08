@@ -3,11 +3,41 @@ import { NextResponse } from "next/server";
 // Demo data with user reactions (ups/downs).
 // Justification in the comments for each topic.
 const DEMO_TOPICS = [
-  { name: "nextjs",     posts: 124, ups: 860, downs: 120 },  
-  { name: "typescript", posts: 98,  ups: 400, downs: 380 },  
-  { name: "tailwindcss",posts: 86,  ups: 300, downs: 520 },  
-  { name: "react",      posts: 210, ups: 1900, downs: 600 },
-  { name: "webdev",     posts: 65,  ups: 120, downs: 100 },
+  { id: 1, 
+    name: "nextjs",     
+    posts: 124, 
+    ups: 860, 
+    downs: 120, 
+    sentiment_scores: { neg: 0.0, neu: 0.417, pos: 0.583, compound: 0.8393, sentiment: "positive" }
+  },  
+  { id: 2, 
+    name: "typescript", 
+    posts: 98,  
+    ups: 400, 
+    downs: 380,
+    sentiment_scores: { neg: 0.12, neu: 0.76, pos: 0.12, compound: 0.0, sentiment: "neutral" }
+  },  
+  { id: 3, 
+    name: "tailwindcss",
+    posts: 86,  
+    ups: 300, 
+    downs: 520,
+    sentiment_scores: {  neg: 0.30, neu: 0.60, pos: 0.10, compound: -0.35, sentiment: "negative" }
+  },  
+  { id: 4, 
+    name: "react",      
+    posts: 210, 
+    ups: 1900, 
+    downs: 600,
+    sentiment_scores: {  neg: 0.0, neu: 0.417, pos: 0.583, compound: 0.8393, sentiment: "positive" }
+  },
+  { id: 5, 
+    name: "webdev",     
+    posts: 65,  
+    ups: 120, 
+    downs: 100,
+    sentiment_scores: {  neg: 0.10, neu: 0.70, pos: 0.20, compound: 0.12, sentiment: "positive" }
+  },
 ];
 
 export async function GET() {
@@ -21,17 +51,18 @@ export async function GET() {
     // Suppress noise: treat "neutral" as around zero
     if (Math.abs(velocity) < EPS) velocity = 0;
 
-    const sentiment =
-      velocity > 0 ? "positive" :
-      velocity < 0 ? "negative" :
-      "neutral";
+    // const sentiment =
+    //   velocity > 0 ? "positive" :
+    //   velocity < 0 ? "negative" :
+    //   "neutral";
 
     return {
+      id: t.id,
       name: t.name,
       posts: t.posts,
       velocity,
       score: net,
-      sentiment,
+      sentiment_scores: t.sentiment_scores,
     };
   })
   // By default, sort by score in descending order (as Reddit hotness surrogate)
