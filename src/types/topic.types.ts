@@ -6,7 +6,6 @@ export type Topic = {
   velocity: number; // Reddit-like net score: ups - downs; may be negative.
   score: number;
   sentiment_scores: {neg: number, neu: number, pos: number, compound: number, sentiment: "positive" | "negative" | "neutral"}
-  sentiment: "positive" | "negative" | "neutral";
 };
 
 export type TopicsGridProps = {
