@@ -1,12 +1,18 @@
-import { Topic } from "@/types/topic.types"
+import { RedditTopic } from "@/types/topic.types"
 
-export async function getTopics(): Promise<Topic[]> {
-    const res = await fetch("http://localhost:3000/api/trending", {
+export async function getTopics(subredditName: string, postType: string, numberOfPosts: number): Promise<RedditTopic[]> {
+    console.log('fetching...')
+    
+    const res = await fetch(`http://127.0.0.1:5000/posts/${subredditName}/${postType}/` + numberOfPosts.toString(), {
         cache: "no-store"
     });
-    
+
     if (!res.ok) throw new Error(`Request failed: ${res.status}`);
 
     const data = await res.json()
-    return data.topics
+
+    console.log('fetched')
+    console.log(data)
+
+    return data
 }
