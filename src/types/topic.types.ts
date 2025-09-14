@@ -1,19 +1,9 @@
-export type Topic = {
-  id: number;
-  name: string;
-  posts: number;
-  // Now velocity is in the range [-1..1]: <0 — downs dominate, >0 — ups dominate.
-  velocity: number; // Reddit-like net score: ups - downs; may be negative.
-  score: number;
-  sentiment_scores: {neg: number, neu: number, pos: number, compound: number, sentiment: "positive" | "negative" | "neutral"}
-};
-
 export type TopicsGridProps = {
-  topics: Topic[];
+  topics: RedditTopic[];
 }
 
 export type TopicCardProps = {
-  topic: Topic;
+  topic: RedditTopic;
 }
 
 export type SentimentFilterType = "all" | "positive" | "negative" | "neutral";
@@ -21,4 +11,30 @@ export type SentimentFilterType = "all" | "positive" | "negative" | "neutral";
 export type SentimentFilterProps = {
   filter: SentimentFilterType;
   setFilter: React.Dispatch<React.SetStateAction<SentimentFilterType>>;
+}
+
+type Post = {
+  comments: string[];
+  content: string;
+  id: string;
+  num_comments: number;
+  score: number;
+  title: string;
+  upvote_ratio: number;
+}
+
+export type SentimentValues = {
+  average_compound: number;
+  average_neg: number;
+  average_neu: number;
+  average_pos: number;
+  comment_count: number;
+}
+
+export type RedditTopic = {
+  id: number;
+  num_posts: number;
+  posts: Post[];
+  sentiment_values: SentimentValues;
+  topic: string[];
 }
