@@ -27,6 +27,20 @@ Run the development server:
 ```bash
 npm run dev
 ```
+Configure requests to Flask REST API with getTopics function:
+```typescript
+async function getTopics(
+    subredditName: string, 
+    postType: string, 
+    numberOfPosts: number): Promise<RedditTopic[]> {
+    //...
+};
+```
+Example request:
+```typescript
+const topics = await getTopics("programming", "hot", 100);
+```
+NOTE: At the moment using number of posts > 100 may cause fetch to timeout.
 
 ## Project structure suggestion
 A best practice Next.js project structure by Binaya Bajracharya shared on [DEV Community](https://dev.to/bajrayejoon/best-practices-for-organizing-your-nextjs-15-2025-53ji) that we could follow:
@@ -57,7 +71,7 @@ app (rendered at route -> '/')
     ├── layout.tsx (optional for nested routes) 
     ├── page.tsx
     │
-    └── [id] (dynamically rendered at route -> '/topics/[id]')
+    └── [slug] (dynamically rendered at route -> '/topic/[slug]')
         └── page.tsx
 ```
 
@@ -93,13 +107,15 @@ The frontend application handles the UI and user interaction using React. Fronte
 
 ```mermaid
 sequenceDiagram
-    Browser ->> React frontend: Page request
-    React frontend->>Flask backend: HTTP request
-    Flask backend ->> React frontend: JSON response
-    React frontend-->>Flask backend: Next.js API Route call
-    Note right of React frontend: Optional:<br/>Form handling, <br/>auth token storage, <br/> proxy requests?
-    Flask backend -->> React frontend: JSON response
-    React frontend ->> Browser: Page render
+    Browser ->> Next.js: Page request
+    Next.js->> Flask REST API: HTTP request
+    Flask REST API ->> Next.js: JSON response
+    Note right of Browser: Server components<br/>(default)
+    Next.js -->>Flask REST API: Next.js API Route call
+    Note right of Next.js: Optional:<br/>Form handling, <br/>auth token storage, <br/> proxy requests?
+    Note right of Browser: Client components<br/>(for interactivity)
+    Flask REST API -->> Next.js: JSON response
+    Next.js ->> Browser: Page render
 ```
 
 ## UI layout plan
