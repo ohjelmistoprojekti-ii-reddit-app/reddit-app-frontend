@@ -9,6 +9,9 @@ export default function Header() {
                     <Link href="/">Home</Link>
                 </li>
                 <li>
+                    <Link href="/map">Map</Link>
+                </li>
+                <li>
                     Sign in
                 </li>
             </ul>
