@@ -121,7 +121,11 @@
     @apply fill-gray-300;
   }
 
-  svg path:hover {
+  #FI, #SE, #IT, #MX, #ES {
+    @apply fill-orange-300;
+  }
+
+  #FI:hover, #SE:hover, #IT:hover, #MX:hover, #ES:hover {
     @apply fill-orange-500 cursor-pointer;
   }
 }
