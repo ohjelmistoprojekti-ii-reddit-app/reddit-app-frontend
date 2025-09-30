@@ -4,7 +4,7 @@ import type { Config } from "@svgr/core"
 
 const config: Config = {
   // Do not automatically spread props on <svg> unless you want to
-  expandProps: false,
+  expandProps: "start",
 
   // Keep viewBox + other attributes
   svgProps: {},
