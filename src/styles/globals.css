@@ -117,4 +117,11 @@
   body {
     @apply bg-background text-foreground;
   }
+  svg path {
+    @apply fill-gray-300;
+  }
+
+  svg path:hover {
+    @apply fill-orange-500 cursor-pointer;
+  }
 }
