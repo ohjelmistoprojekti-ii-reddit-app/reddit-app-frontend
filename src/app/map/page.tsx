@@ -1,31 +1,32 @@
 "use client"
 
-import { useState } from "react"
 import WorldSvg from "../../../assets/world.svg"
-import MapDialog from "@/components/features/map/MapDialog"
+import { useRouter } from "next/navigation"
 
-const clickableCountries = ["FI", "SE", "IT", "MX", "ES"]
+const clickableCountries = [
+  { id: "FI", name: "Finland", subredditName: "suomi" },
+  { id: "SE", name: "Sweden", subredditName: "sweden" },
+  { id: "IT", name: "Italy", subredditName: "italia" },
+  { id: "MX", name: "Mexico", subredditName: "mexico" },
+  { id: "ES", name: "Spain", subredditName: "spain" }
+]
 
-type countryDetails = {
-  id: string
-  name: string | null
-}
 
 export default function WorldMap() {
-
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const [country, setCountry] = useState<countryDetails>({ id: '', name: '' })
+  const router = useRouter()
 
   const handleClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     const target = e.target as SVGPathElement
-    if (target.tagName === "path" && clickableCountries.includes(target.id)) {
-      console.log(`Clicked! Id: ${target.id} Name: ${target.getAttribute("name")}`)
-      setCountry({ 
-        id: target.id, 
-        name: target.getAttribute("name") 
-      } as countryDetails)
-      setDialogOpen(true)
+    if (target.tagName === "path") {
+      const country = clickableCountries.find(c => c.id === target.id)
+      console.log(country)
+      if(country) {
+        console.log(`Clicked! id: ${target.id}, name: ${country.subredditName}`)
+        router.push(`/map/dialog?country=${country.subredditName}`)
+      }
+      
     }
+      
   }
 
   return (
@@ -33,12 +34,6 @@ export default function WorldMap() {
         <WorldSvg 
             className="w-full h-auto"
             onClick={handleClick}
-    
-        />
-        <MapDialog
-          details={country}
-          open={dialogOpen}
-          setOpen={setDialogOpen}
         />
     </div>
   );
