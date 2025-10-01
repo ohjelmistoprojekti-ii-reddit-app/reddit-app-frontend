@@ -1,3 +1,6 @@
+"use client"
+
+import { useRouter } from "next/navigation"
 import { 
     Dialog, 
     DialogContent, 
@@ -7,25 +10,32 @@ import {
     DialogHeader, 
     DialogFooter 
 } from "@/components/ui/dialog"
+import MapDialogContent from "./MapDialogContent";
 import { Button } from "@/components/ui/button"
-import { MapDialogProps } from "@/types/map.types"
+import { MapDialogProps } from "@/types/map.types";
 
-
-export default function MapDialog({ details, open, setOpen}: MapDialogProps) {
+export default function MapDialog({ subredditName, posts }: MapDialogProps) {
+    const router = useRouter()
     return(
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog 
+            defaultOpen
+            onOpenChange={() => router.back()}
+        >
             <DialogContent className="sm:max-w-[600px]">
-                    <DialogHeader className="mb-4">
-                        <DialogTitle>{details?.name}</DialogTitle>
-                        <DialogDescription>
-                            Top posts for Reddit {details?.id}
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter className="mt-4">
-                        <DialogClose asChild>
+                <DialogHeader className="flex">
+                    <DialogTitle className="text-xl self-center">
+                        Top Reddit posts in r/{subredditName}
+                    </DialogTitle>
+                    <DialogDescription className="sr-only">
+                        Top posts and comments per country listed in dialog box
+                    </DialogDescription>
+                </DialogHeader>
+                <MapDialogContent posts={posts}/>
+                <DialogFooter className="mt-4">
+                    <DialogClose asChild>
                         <Button variant="outline">Close</Button>
-                        </DialogClose>
-                    </DialogFooter>
+                    </DialogClose>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     )
