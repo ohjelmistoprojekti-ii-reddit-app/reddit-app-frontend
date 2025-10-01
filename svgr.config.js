@@ -1,8 +1,8 @@
-import type { Config } from "@svgr/core"
+
 
 // SVGR config was produced with the help of ChatGPT
 
-const config: Config = {
+const config = {
   // Do not automatically spread props on <svg> unless you want to
   expandProps: "start",
 
@@ -26,6 +26,8 @@ const config: Config = {
       },
     ],
   },
+
+  jsxRuntime: "classic",
 }
 
 export default config
