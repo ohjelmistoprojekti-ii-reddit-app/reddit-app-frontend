@@ -4,7 +4,7 @@ export async function getPostsByCountry(subredditName: string): Promise<CountryT
     try {
         console.log('fetching...')
     
-        const res = await fetch(`http://127.0.0.1:5000/posts/${subredditName}`, {
+        const res = await fetch(`http://127.0.0.1:5000/posts/hot/${subredditName}`, {
             cache: "no-store"
         });
 
