@@ -1,7 +1,7 @@
 "use client"
 
 import { SentimentChartProps } from "@/types/topic.types"
-import { Pie, PieChart } from "recharts"
+import { Pie, PieChart, Cell } from "recharts"
 import {
   ChartConfig,
   ChartContainer,
@@ -38,12 +38,11 @@ export default function SentimentChart({ data }: SentimentChartProps) {
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
                 />
-                <Pie
-                    data={data}
-                    dataKey="value"
-                    nameKey="name"
-                    innerRadius={60}
-                />
+                <Pie data={data} dataKey="value" nameKey="name" innerRadius={60}>
+                  {data?.map((entry) => (
+                    <Cell key={entry.name} fill={chartConfig[entry.name as keyof typeof chartConfig].color} />
+                  ))}
+                </Pie>
                 <ChartLegend 
                     className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center" 
                     content={<ChartLegendContent nameKey="name" />}

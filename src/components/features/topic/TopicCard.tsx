@@ -6,9 +6,9 @@ import SentimentChart from "./SentimentChart";
 export default function TopicCard({ topic } : TopicCardProps) {
     
     const chartData = [
-        { name: "positive", value: topic.sentiment_values.average_pos, fill: "var(--color-positive)" },
-        { name: "neutral", value: topic.sentiment_values.average_neu, fill: "var(--color-neutral)" },
-        { name: "negative", value: topic.sentiment_values.average_neg, fill: "var(--color-negative)" },
+        { name: "positive", value: topic.sentiment_values.average_pos },
+        { name: "neutral", value: topic.sentiment_values.average_neu },
+        { name: "negative", value: topic.sentiment_values.average_neg },
     ];
 
     const c = topic.sentiment_values.average_compound
@@ -46,9 +46,6 @@ export default function TopicCard({ topic } : TopicCardProps) {
                 
             </CardHeader>
             <CardContent className="text-sm">
-                {/* Positive: {topic.sentiment_values.average_pos} • 
-                Neutral: {topic.sentiment_values.average_neu} • 
-                Negative: {topic.sentiment_values.average_neg} */}
                 <SentimentChart data={chartData}/>
             </CardContent>
             <CardFooter className="flex items-center gap-4 justify-between space-y-0 pb-2">
