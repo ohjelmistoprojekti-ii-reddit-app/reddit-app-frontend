@@ -40,7 +40,9 @@ export default function SentimentChart({ data }: SentimentChartProps) {
                 />
                 <Pie data={data} dataKey="value" nameKey="name" innerRadius={60}>
                   {data?.map((entry) => (
-                    <Cell key={entry.name} fill={chartConfig[entry.name as keyof typeof chartConfig].color} />
+                    <Cell 
+                      key={entry.name} 
+                      fill={chartConfig[entry.name as keyof typeof chartConfig].color} />
                   ))}
                 </Pie>
                 <ChartLegend 

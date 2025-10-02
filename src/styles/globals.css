@@ -117,7 +117,7 @@
   body {
     @apply bg-background text-foreground;
   }
-  svg path {
+  .world-map svg path {
     @apply fill-gray-300;
   }
 
