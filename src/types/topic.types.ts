@@ -32,7 +32,7 @@ export type SentimentValues = {
 }
 
 export type RedditTopic = {
-  id: number;
+  _id: string;
   num_posts: number;
   posts: Post[];
   sentiment_values: SentimentValues;
@@ -42,7 +42,6 @@ export type RedditTopic = {
 type SentimentChartData = {
   name: string;
   value: number;
-  fill: string;
 }
 
 export type SentimentChartProps = {
