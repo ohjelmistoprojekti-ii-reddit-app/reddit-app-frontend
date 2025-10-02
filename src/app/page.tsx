@@ -9,7 +9,6 @@ export default async function Home(
 ) {
   const params = await searchParams;
 
-  // поддержка старого ?category= на всякий случай
   const raw =
     (typeof params.subreddit === "string" && params.subreddit) ||
     (typeof params.category === "string" && params.category) ||
@@ -23,10 +22,10 @@ export default async function Home(
   try {
     topics = await getLatestTopicsDb(subreddit);
     if (!Array.isArray(topics) || topics.length === 0) {
-      error = `Посты не найдены для сабреддита “${subreddit}”. Попробуйте другой.`;
+      error = `Posts for “${subreddit}” not found. Try another one!`;
     }
   } catch {
-    error = "Не удалось загрузить посты. Повторите попытку позже.";
+    error = "Post are not availaible. Try later.";
   }
 
   return (
