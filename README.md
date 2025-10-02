@@ -8,15 +8,15 @@ This is the frontend service for a web application that:
 > 🚧 This project is in early development.
 
 ## Table of contents
->- 🛠 [Tech stack](#tech-stack)  
->- 🚀 [Installation and dev setup](#installation-and-local-dev-setup)  
->- ⚡ [Configure backend fetch](#configure-fetch-functions)  
->- 🧩 [Project structure](#project-structure-suggestion)  
->- ↪️ [App routing](#app-routing)  
->- 💎 [Shadcn/ui components](#shadcnui-components)  
->- 🌍 [World map component](#world-map-component)  
->- 🏦 [Basic architecture plan](#basic-architecture-plan)  
->- ⭐ [UI layout plan](#ui-layout-plan)  
+>🛠 [Tech stack](#tech-stack)  
+>🚀 [Installation and dev setup](#installation-and-local-dev-setup)  
+>⚡ [Configure backend fetch](#configure-fetch-functions)  
+>🧩 [Project structure](#project-structure-suggestion)  
+>↪️ [App routing](#app-routing)  
+>💎 [Shadcn/ui components](#shadcnui-components)  
+>🌍 [World map component](#world-map-component)  
+>🏦 [Basic architecture plan](#basic-architecture-plan)  
+>⭐ [UI layout plan](#ui-layout-plan)  
 
 ## Tech Stack
 
