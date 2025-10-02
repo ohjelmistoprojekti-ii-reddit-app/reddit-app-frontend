@@ -13,8 +13,8 @@ This is the frontend service for a web application that:
 >⚡ [Configure backend fetch](#configure-fetch-functions)  
 >🧩 [Project structure](#project-structure-suggestion)  
 >↪️ [App routing](#app-routing)  
->💎 [Shadcn/ui components](#shadcnui-components)  
->🌍 [World map component](#world-map-component)  
+>🌍 [World map component](#world-map-component)   
+>💎 [Shadcn/ui components](#shadcnui-components)    
 >🏦 [Basic architecture plan](#basic-architecture-plan)  
 >⭐ [UI layout plan](#ui-layout-plan)  
 
@@ -50,6 +50,8 @@ npm run dev
 Configure requests to Flask REST API with fetch functions:  
 #### Fetch from Reddit API and run backend analysis models 
 ```typescript
+// Calling Flask endpoint: 'GET /posts/hot/{subreddit}'
+
 async function getPostsByCountry(
     subredditName: string): Promise<CountryTopPost[]> {
         //...
@@ -59,6 +61,8 @@ async function getPostsByCountry(
 const posts = await getPostsByCountry("suomi");
 ```
 ```typescript
+// Calling Flask endpoint: 'GET /posts/{subreddit}/{type}/{amount}'
+
 async function getTopics(
     subredditName: string, 
     postType: string, 
@@ -74,6 +78,8 @@ const topics = await getTopics("programming", "hot", 100);
 
 #### Fetch analyzed data from backend MongoDB database
 ```typescript
+// Calling Flask endpoint: 'GET /posts/latest/{subreddit}'
+
 async function getLatestTopicsDb(
     subredditName: string): Promise<RedditTopic[]> {
         //...
@@ -111,41 +117,24 @@ app (home/trending topics -> '/')
 ├── page.tsx
 |   
 └── map (world map -> '/map')
-    ├── layout.tsx (for accomodating @dialog parallel routing) 
+    ├── layout.tsx (for accommodating @dialog parallel routing) 
     ├── page.tsx
     │
     └── @dialog (slot passed to the map layout)
         ├── default.tsx (placeholder page rendering 'null')
-        └── dialog (country dialog page -> '/map/dialog?country=${countryName}')
+        └── dialog (country dialog page -> '/map/dialog?country=${subredditName}')
             └── page.tsx
 
 ```
 The app is utilizing parallel routing ([read more from Next.js docs]()) to simultaneously render two pages within the same layout. Country specific popup/dialog page is therefore rendered per onClick on top of the world map. 
 
-## Shadcn/ui components
-- [shadcn/ui library components](https://ui.shadcn.com/docs/components)
-
-Already installed and reusable shadcn components can be found at:
-```
-src 
-└── components
-    └── ui
-        ├── card.tsx
-        └── ...
-```
-Install new components by choosing one from the shadcn library and executing:
-```bash
-npx shadcn@latest add ${componentName}
-```
-Newly installed components will appear in the components/ui -folder.
-
 ## World map component
 - The world map component is a free, web-optimized SVG map from [SimpleMaps.com](https://simplemaps.com/resources/svg-maps) by Pareto Software.  
 - The project is using SVGR webpack to transform the map SVG to an interactive React component. The use of SVGR is optimized in svgr.config.js.
-- Located at asset/world.svg, the svg file contains path elements for each country with attributes for identification and location
+- Located at assets/world.svg, the svg file contains path elements for each country with attributes for identification and location
 ```svg
 <svg>
-    <path id="FI" name="Finland d="..."></path>
+    <path id="FI" name="Finland" d="..."></path>
     ...
 </svg>
 ```
@@ -170,7 +159,7 @@ Newly installed components will appear in the components/ui -folder.
 ```typescript
 "use client"
 
-import WorldSvg from "../../../assets/world.svg"
+import WorldSvg from "./assets/world.svg"
 
 export default function WorldMap() {
   
@@ -187,8 +176,25 @@ export default function WorldMap() {
 
   return <WorldSvg onClick={handleClick} />
 }
-
 ```
+
+## Shadcn/ui components
+- [shadcn/ui library components](https://ui.shadcn.com/docs/components)
+
+Already installed and reusable shadcn components can be found at:
+```
+src 
+└── components
+    └── ui
+        ├── card.tsx
+        └── ...
+```
+Install new components by choosing one from the shadcn library and executing:
+```bash
+npx shadcn@latest add ${componentName}
+```
+Newly installed components will appear in the components/ui -folder.
+
 ## Basic architecture plan
 The frontend application handles the UI and user interaction using React. Frontend fetches and posts data via REST APIs exposed by Flask backend.
 
