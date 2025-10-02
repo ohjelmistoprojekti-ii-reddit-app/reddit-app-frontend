@@ -7,14 +7,33 @@ This is the frontend service for a web application that:
 
 > 🚧 This project is in early development.
 
-## 🛠️ Tech Stack (Planned)
+## Table of contents
+>- [ 🛠 Tech stack](#tech-stack)  
+>- [ 🚀 Installation and dev setup](#installation-and-local-dev-setup)  
+>- [ ⚡ Configure backend fetch](#configure-fetch-functions)  
+>- [ 🧩 Project structure](#project-structure-suggestion)  
+>- [ ↪️ App routing](#app-routing)  
+>- [ 💎 Shadcn/ui components](#shadcnui-components)  
+>- [ 🌍 World map component](#world-map-component)  
+>- [ 🏦 Basic architecture plan](#basic-architecture-plan)  
+>- [ ⭐ UI layout plan](#ui-layout-plan)  
 
-- **Language:** TypeScript
-- **Framework:** Next.js   
-- **UI library:** Shadcn/ui to utilize customizable components
-- **API calls:** Axios
+## Tech Stack
 
-## Usage
+|| Tech | Description | Docs |
+| :---------: | :-----------: | ----------- |:-----------: |
+| **Language** | `TypeScript` | Strongly typed language built on JS | [🔗](https://www.typescriptlang.org/) |
+| **Framework** | `Next.js` | React framework with built-in routing and server-side rendering | [🔗](https://nextjs.org/docs) |
+| **UI library** | `shadcn/ui`| Components built with Radix UI and Tailwind CSS |[🔗](https://ui.shadcn.com/)
+| **Webpacks** | `SVGR`| Transforms SVGs into React components | [🔗](https://react-svgr.com/)
+
+
+## Installation and local dev setup
+
+Clone the repository:
+```bash
+git clone https://github.com/ohjelmistoprojekti-ii-reddit-app/reddit-app-frontend.git
+```
 
 Install dependencies:
 
@@ -22,12 +41,23 @@ Install dependencies:
 npm install
 ```
 
-Run the development server:
+Have the Flask backend server running and start the development server:
 
 ```bash
 npm run dev
 ```
-Configure requests to Flask REST API with getTopics function:
+## Configure fetch functions
+Configure requests to Flask REST API with fetch functions:  
+#### Fetch from Reddit API and run backend analysis models 
+```typescript
+async function getPostsByCountry(
+    subredditName: string): Promise<CountryTopPost[]> {
+        //...
+    }
+
+// Example request
+const posts = await getPostsByCountry("suomi");
+```
 ```typescript
 async function getTopics(
     subredditName: string, 
@@ -35,12 +65,25 @@ async function getTopics(
     numberOfPosts: number): Promise<RedditTopic[]> {
     //...
 };
-```
-Example request:
-```typescript
+
+// Example request
 const topics = await getTopics("programming", "hot", 100);
 ```
-NOTE: At the moment using number of posts > 100 may cause fetch to timeout.
+> [!WARNING]
+> Be mindful that the bigger the numberOfPosts, the longer the wait for frontend to render. At the moment using number of posts > 500 may cause fetch to timeout.
+
+#### Fetch analyzed data from backend MongoDB database
+```typescript
+async function getLatestTopicsDb(
+    subredditName: string): Promise<RedditTopic[]> {
+        //...
+    }
+
+
+// Example request
+const topics = await getLatestTopicsDb("technology");
+```
+See available options for subredditName at [backend README](https://github.com/ohjelmistoprojekti-ii-reddit-app/reddit-app-backend#get-latest-analyzed-posts-from-the-database)
 
 ## Project structure suggestion
 A best practice Next.js project structure by Binaya Bajracharya shared on [DEV Community](https://dev.to/bajrayejoon/best-practices-for-organizing-your-nextjs-15-2025-53ji) that we could follow:
@@ -60,30 +103,24 @@ src/
 └── context/               # React Context providers
 ```
 
-## Next.js file based routing
-For example:
+## App routing
+Routing at the moment:
 ```
-app (rendered at route -> '/')
-├── layout.tsx (required root layout)
-├── page.tsx (UI rendered at a specific route)
+app (home/trending topics -> '/')
+├── layout.tsx (root layout)
+├── page.tsx
 |   
-└── topics (rendered at route -> '/topics')
-    ├── layout.tsx (optional for nested routes) 
+└── map (world map -> '/map')
+    ├── layout.tsx (for accomodating @dialog parallel routing) 
     ├── page.tsx
     │
-    └── [slug] (dynamically rendered at route -> '/topic/[slug]')
-        └── page.tsx
+    └── @dialog (slot passed to the map layout)
+        ├── default.tsx (placeholder page rendering 'null')
+        └── dialog (country dialog page -> '/map/dialog?country=${countryName}')
+            └── page.tsx
+
 ```
-
-## Server vs client components
-Layouts and pages are server components by default. Data fetching and API connections can be executed using server components. It's best practice to use client components for components that require user interactivity involving state or event handlers e.g. onClick/onChange. Use client directive to declare component to rendered on the client side:
-```typescript
-"use client";
-```
-
-## Next.js docs
-
-- [Next.js Documentation](https://nextjs.org/docs)
+The app is utilizing parallel routing ([read more from Next.js docs]()) to simultaneously render two pages within the same layout. Country specific popup/dialog page is therefore rendered per onClick on top of the world map. 
 
 ## Shadcn/ui components
 - [shadcn/ui library components](https://ui.shadcn.com/docs/components)
@@ -102,6 +139,56 @@ npx shadcn@latest add ${componentName}
 ```
 Newly installed components will appear in the components/ui -folder.
 
+## World map component
+- The world map component is a free, web-optimized SVG map from [SimpleMaps.com](https://simplemaps.com/resources/svg-maps) by Pareto Software.  
+- The project is using SVGR webpack to transform the map SVG to an interactive React component. The use of SVGR is optimized in svgr.config.js.
+- Located at asset/world.svg, the svg file contains path elements for each country with attributes for identification and location
+```svg
+<svg>
+    <path id="FI" name="Finland d="..."></path>
+    ...
+</svg>
+```
+- Styles for all countries and hover styles for selected countries are defined in styles/globals.css
+```css
+@layer base {
+    ...
+    svg path {
+    @apply fill-gray-300;
+    }
+
+    #FI, #SE, #IT, #MX, #ES {
+        @apply fill-orange-300;
+    }
+
+    #FI:hover, #SE:hover, #IT:hover, #MX:hover, #ES:hover {
+        @apply fill-orange-500 cursor-pointer;
+    }
+}
+```
+- World.svg is imported as a React component and click behavior is programmed for selected countries
+```typescript
+"use client"
+
+import WorldSvg from "../../../assets/world.svg"
+
+export default function WorldMap() {
+  
+  const handleClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    const target = e.target as SVGPathElement
+    if (target.tagName === "path") {
+      const country = clickableCountries.find(c => c.id === target.id)
+      
+      if(country) {
+        //...
+      }
+    }
+  }
+
+  return <WorldSvg onClick={handleClick} />
+}
+
+```
 ## Basic architecture plan
 The frontend application handles the UI and user interaction using React. Frontend fetches and posts data via REST APIs exposed by Flask backend.
 
