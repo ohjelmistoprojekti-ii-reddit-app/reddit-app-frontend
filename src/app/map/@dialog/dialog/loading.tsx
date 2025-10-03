@@ -25,7 +25,7 @@ export default function MapDialogLoader() {
 
     return (
         <Dialog defaultOpen>
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="sr-only"/>
                     <DialogDescription className="sr-only">
