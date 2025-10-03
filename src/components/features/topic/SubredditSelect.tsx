@@ -3,7 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getSubreddits } from "@/lib/api/getSubreddits";
-import { SUBREDDIT_OPTIONS } from "@/constants/subreddits";
+import { SUBREDDIT_OPTIONS } from "@/lib/constants/subreddits";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 export default function SubredditSelect({ selected }: { selected: string }) {

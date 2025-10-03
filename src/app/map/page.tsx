@@ -2,15 +2,7 @@
 
 import WorldSvg from "../../../assets/world.svg"
 import { useRouter } from "next/navigation"
-
-const clickableCountries = [
-  { id: "FI", name: "Finland", subredditName: "suomi" },
-  { id: "SE", name: "Sweden", subredditName: "sweden" },
-  { id: "IT", name: "Italy", subredditName: "italia" },
-  { id: "MX", name: "Mexico", subredditName: "mexico" },
-  { id: "ES", name: "Spain", subredditName: "spain" }
-]
-
+import { CLICKABLE_COUNTRIES } from "@/lib/constants/clickableCountries"
 
 export default function WorldMap() {
   const router = useRouter()
@@ -18,7 +10,7 @@ export default function WorldMap() {
   const handleClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     const target = e.target as SVGPathElement
     if (target.tagName === "path") {
-      const country = clickableCountries.find(c => c.id === target.id)
+      const country = CLICKABLE_COUNTRIES.find(c => c.id === target.id)
       console.log(country)
       if(country) {
         console.log(`Clicked! id: ${target.id}, name: ${country.subredditName}`)
