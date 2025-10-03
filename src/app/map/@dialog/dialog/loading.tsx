@@ -25,16 +25,19 @@ export default function MapDialogLoader() {
 
     return (
         <Dialog defaultOpen>
-            <DialogContent className="max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-h-[90vh]">
                 <DialogHeader>
                     <DialogTitle className="sr-only"/>
                     <DialogDescription className="sr-only">
                         Fetching top posts and comments per country
                     </DialogDescription>
                 </DialogHeader>
-                <div className="flex flex-col items-center justify-center min-h-screen relative">
-                    <div className="relative animate-spin ease-linear rounded-full border-8 border-primary/30 border-t-primary h-32 w-32 mb-6 z-10"></div>
-                    <h2 className="text-center text-xl font-semibold text-primary z-10"> Analyzing{dots}</h2>
+                <div className="flex h-full min-h-[300px] items-center justify-center">
+                    <div className="flex flex-col items-center justify-center">
+                        <div className="relative animate-spin ease-linear rounded-full border-8 border-primary/30 border-t-primary h-32 w-32 mb-6">
+                        </div>
+                        <h2 className="text-center text-xl font-semibold text-primary"> Analyzing{dots}</h2>
+                </div>
                 </div>
                 <DialogFooter className="mt-4">
                     <DialogClose asChild>
