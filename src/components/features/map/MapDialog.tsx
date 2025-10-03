@@ -21,7 +21,7 @@ export default function MapDialog({ subredditName, posts }: MapDialogProps) {
             defaultOpen
             onOpenChange={() => router.back()}
         >
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader className="flex">
                     <DialogTitle className="text-xl self-center">
                         Top Reddit posts in r/{subredditName}
