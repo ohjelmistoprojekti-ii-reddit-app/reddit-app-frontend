@@ -2,10 +2,9 @@
 
 This is the frontend service for a web application that:
 - fetches **trending Reddit topics**
+- identifies **trending topics** using topic modeling
 - analyzes the **sentiment** of public discussions
-- and enables **filtering topics by sentiment** (positive, negative, neutral)
-
-> 🚧 This project is in early development.
+- and enables **filtering** topics by sentiment (positive, negative, neutral) and category (e.g., technology, entertainment, sports)
 
 ## Table of contents
 >🛠 [Tech stack](#tech-stack)  
@@ -16,9 +15,11 @@ This is the frontend service for a web application that:
 >🌍 [World map component](#world-map-component)   
 >💎 [Shadcn/ui components](#shadcnui-components)    
 >🏦 [Basic architecture plan](#basic-architecture-plan)  
->⭐ [UI layout plan](#ui-layout-plan)  
+>⭐ [UI layout plan](#ui-layout-plan)
 
-## Tech Stack
+> This project was created as part of the Software Development Project II course at Haaga-Helia University of Applied Sciences, Finland. It is not affiliated with or endorsed by Reddit.
+
+## Tech stack
 
 || Tech | Description | Docs |
 | :---------: | :-----------: | ----------- |:-----------: |
@@ -126,7 +127,7 @@ app (home/trending topics -> '/')
             └── page.tsx
 
 ```
-The app is utilizing parallel routing ([read more from Next.js docs]()) to simultaneously render two pages within the same layout. Country specific popup/dialog page is therefore rendered per onClick on top of the world map. 
+The app is utilizing parallel routing [read more from Next.js docs](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes) to simultaneously render two pages within the same layout. Country specific popup/dialog page is therefore rendered per onClick on top of the world map. 
 
 ## World map component
 - The world map component is a free, web-optimized SVG map from [SimpleMaps.com](https://simplemaps.com/resources/svg-maps) by Pareto Software.  
