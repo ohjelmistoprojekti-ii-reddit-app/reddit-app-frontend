@@ -17,12 +17,13 @@ This is the frontend service for a web application that:
 >🏦 [Basic architecture plan](#basic-architecture-plan)  
 >⭐ [UI layout plan](#ui-layout-plan)
 
+> [!NOTE] 
 > This project was created as part of the Software Development Project II course at Haaga-Helia University of Applied Sciences, Finland. It is not affiliated with or endorsed by Reddit.
 
 ## Tech stack
 
 || Tech | Description | Docs |
-| :---------: | :-----------: | ----------- |:-----------: |
+| :---------: | :-----------: | :-----------: |:-----------: |
 | **Language** | `TypeScript` | Strongly typed language built on JS | [🔗](https://www.typescriptlang.org/) |
 | **Framework** | `Next.js` | React framework with built-in routing and server-side rendering | [🔗](https://nextjs.org/docs) |
 | **UI library** | `shadcn/ui`| Components built with Radix UI and Tailwind CSS |[🔗](https://ui.shadcn.com/)
