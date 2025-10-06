@@ -3,21 +3,35 @@ export type MapDialogProps = {
     posts: CountryTopPost[]
 }
 
-export type MapDialogContentProps= {
+export type MapDialogContentProps = {
     posts: CountryTopPost[]
 }
 
+export type MapDialogPostProps = {
+    post: CountryTopPost
+
+}
+
 type CommentSentimentValues = {
-    sentiment_compound: number,
-    sentiment_neg: number,
-    sentiment_neu: number,
-    sentiment_pos: number,
+    average_compound: number,
+    average_neg: number,
+    average_neu: number,
+    average_pos: number,
 }
 
 export type CountryTopPost = {
-    post_title: string
-    comment_original: string
-    comment_eng: string
-    post_score: 1470
+    title: string
+    title_eng: string
+    content: string
+    content_eng: string
+    comments: string[]
+    comments_eng: string[]
+    score: 1470
     sentiment_values: CommentSentimentValues
+}
+
+export type CommentSectionProps = {
+    comments: string[]
+    open: boolean
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
