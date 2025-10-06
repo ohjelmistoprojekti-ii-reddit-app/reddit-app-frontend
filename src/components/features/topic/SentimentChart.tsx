@@ -23,7 +23,7 @@ const chartConfig = {
   },
   negative: {
     label: "Negative",
-    color: "var(--chart-5)",
+    color: "var(--chart-1)",
   },
 } satisfies ChartConfig
 

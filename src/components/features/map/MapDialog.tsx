@@ -21,10 +21,13 @@ export default function MapDialog({ subredditName, posts }: MapDialogProps) {
             defaultOpen
             onOpenChange={() => router.back()}
         >
-            <DialogContent className="max-h-[90vh] overflow-y-auto">
-                <DialogHeader className="flex">
-                    <DialogTitle className="text-xl self-center">
-                        Top Reddit posts in r/{subredditName}
+            <DialogContent className="max-h-[90vh] lg:max-w-2xl overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle className="flex flex-col items-center">
+                        <p className="text-muted-foreground tracking-wide uppercase">
+                            Top Reddit posts in
+                        </p>
+                        <p className="text-3xl">r/{subredditName}</p>
                     </DialogTitle>
                     <DialogDescription className="sr-only">
                         Top posts and comments per country listed in dialog box
