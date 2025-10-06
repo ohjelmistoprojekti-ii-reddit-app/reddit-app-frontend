@@ -2,6 +2,8 @@ import FilterableGrid from "@/components/features/topic/FilterableGrid";
 import { getLatestTopicsDb } from "@/lib/api/getLatestTopicsDb";
 import SubredditSelect from "@/components/features/topic/SubredditSelect";
 import EmptyState from "@/components/ui/empty-state";
+import PostNumbersLineChart from "@/components/charts/PostNumbersLineChart";
+import TopTopicsBarChart from "@/components/charts/TopTopicsBarChart";
 
 
 export default async function Home(
@@ -35,7 +37,17 @@ export default async function Home(
         <SubredditSelect selected={subreddit} />
       </div>
 
-      {error ? <EmptyState message={error} /> : <FilterableGrid topics={topics} />}
+      {error ? (
+        <EmptyState message={error} />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <PostNumbersLineChart subreddit={subreddit} days={7} />
+            <TopTopicsBarChart subreddit={subreddit} days={7} limit={7} />
+          </div>
+          <FilterableGrid topics={topics} />
+        </>
+      )}
     </div>
   );
 }
