@@ -28,15 +28,13 @@ export default function TopicCard({ topic } : TopicCardProps) {
 
     return(
         <Card>
-            <CardHeader className="flex gap-4 justify-between space-y-0 pb-2">
-                <CardTitle className="text-l">
-                    {topic.topic.map(name => 
-                        <p key={name}>{name}</p>
-                    )}
+            <CardHeader className="flex gap-4 justify-between space-y-0 pb-1">
+                <CardTitle className="text-lg pt-1">
+                    {topic.label}
                 </CardTitle>
                 <div className="flex flex-col items-center">
                     <DynamicIcon name={smileyIcon}/>
-                    <span className="text-xs text-gray-500 mt-2">
+                    <span className="text-xs text-gray-500 mt-1">
                         {topic.sentiment_values.average_compound}
                     </span>
                     <span className="text-xs text-gray-500">
