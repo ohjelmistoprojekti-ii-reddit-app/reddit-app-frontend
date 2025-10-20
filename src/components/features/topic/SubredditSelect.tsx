@@ -9,15 +9,16 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 export default function SubredditSelect({ selected }: { selected: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [options, setOptions] = useState<string[]>([...SUBREDDIT_OPTIONS]);
+  const [options, setOptions] = useState<string[]>([]);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     (async () => {
+      // Try to fetch subreddits from the backend
+      // Fallback to hardcoded list if the fetch fails
       try {
-        const list = await getSubreddits();
-        if (Array.isArray(list) && list.length > 0) setOptions(list);
-        else setOptions([...SUBREDDIT_OPTIONS]);
+        const subreddits = await getSubreddits();
+        if (subreddits.length > 0) setOptions(subreddits); else setOptions([...SUBREDDIT_OPTIONS]);
       } catch {
         setOptions([...SUBREDDIT_OPTIONS]);
       }
