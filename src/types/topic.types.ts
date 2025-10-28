@@ -38,6 +38,7 @@ export type RedditTopic = {
   sentiment_values: SentimentValues;
   topic: string[];
   label: string;
+  summary?: string;
 }
 
 type SentimentChartData = {
@@ -48,3 +49,4 @@ type SentimentChartData = {
 export type SentimentChartProps = {
   data?: SentimentChartData[];
 }
+
