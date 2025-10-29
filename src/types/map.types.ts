@@ -26,7 +26,11 @@ export type CountryTopPost = {
     content_eng: string
     comments: string[]
     comments_eng: string[]
-    score: 1470
+    score: number
+    link?: string;
+    content_link?: string;
+    language?: string;
+    lang?: string
     sentiment_values: CommentSentimentValues
 }
 

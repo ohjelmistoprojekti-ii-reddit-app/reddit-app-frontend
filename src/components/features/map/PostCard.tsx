@@ -1,0 +1,149 @@
+"use client";
+import { useMemo, useState } from "react";
+import type { CountryTopPost } from "@/types/map.types";
+
+function isImageUrl(url: string) {
+  return /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(url);
+}
+
+function trim(text: string, limit = 240) {
+  if (!text) return "";
+  if (text.length <= limit) return text;
+  return text.slice(0, limit).trimEnd() + "…";
+}
+
+interface PostCardProps {
+  post: CountryTopPost;
+  index: number;
+}
+
+export default function PostCard({ post, index }: PostCardProps) {
+
+  // Check if there is any translated content
+  const isEnglishOriginal = useMemo(() => {
+    const lang = (post.lang || post.language || "").toLowerCase();
+    return lang.startsWith("en") || lang.includes("english");
+  }, [post]);
+
+  // Check if there is actual translated content (non-empty strings)
+  const hasTranslation = Boolean(
+    (post.title_eng && post.title_eng.trim()) || 
+    (post.content_eng && post.content_eng.trim()) || 
+    (post.comments_eng && post.comments_eng.length > 0)
+  );
+
+  // Show translate button only if there is actual translation available
+  const showTranslateButton = hasTranslation;
+
+  // false = show original; true = show translation (ENG)
+  const [showTranslation, setShowTranslation] = useState(false);
+
+  const [expandedContent, setExpandedContent] = useState(false);
+  const [expandedComments, setExpandedComments] = useState(false);
+
+  const title = showTranslation && hasTranslation ? (post.title_eng ?? post.title) : post.title;
+  const content = showTranslation && hasTranslation ? (post.content_eng ?? post.content) : post.content;
+  const commentsArray = showTranslation && hasTranslation ? (post.comments_eng ?? post.comments) : post.comments;
+  
+  const comments = commentsArray?.join('\n\n') || '';
+
+  const showMoreContent = content && content.length > 240;
+  const showMoreComments = comments && comments.length > 240;
+
+  // This prevents showing duplicate links when content_link is the same as the post link
+  const mediaAvailable =
+    post.content_link && post.link && post.content_link !== post.link;
+
+  return (
+    <article className="border rounded-xl p-4 bg-white shadow-sm">
+      <header className="mb-2">
+        <div className="text-xs text-gray-500">Post #{index + 1}</div>
+        <h3 className="text-lg font-semibold leading-snug break-words">{title}</h3>
+      </header>
+
+      {/* ALREADY CORRECT: Media preview if present - displays images or links */}
+      {/* Only shown when content_link is different from the post link */}
+      {mediaAvailable && (
+        <div className="my-3">
+          {isImageUrl(post.content_link!) ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={post.content_link!}
+              alt={title || "media"}
+              className="w-full rounded-lg max-h-[360px] object-contain"
+              loading="lazy"
+            />
+          ) : (
+            <a
+              href={post.content_link!}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-blue-600 underline"
+            >
+              Open media link
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Content */}
+      {content && (
+        <div className="text-gray-800 whitespace-pre-wrap leading-relaxed">
+          {expandedContent || !showMoreContent ? content : trim(content)}
+          {showMoreContent && (
+            <button
+              className="ml-2 text-blue-600 underline"
+              onClick={() => setExpandedContent(v => !v)}
+            >
+              {expandedContent ? "Close" : "Show more"}
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Comments */}
+      {comments && (
+        <div className="mt-3 text-gray-700 whitespace-pre-wrap">
+          <div className="text-sm font-medium mb-1">Comments</div>
+          {expandedComments || !showMoreComments ? comments : trim(comments)}
+          {showMoreComments && (
+            <button
+              className="ml-2 text-blue-600 underline"
+              onClick={() => setExpandedComments(v => !v)}
+            >
+              {expandedComments ? "Close" : "Show more"}
+            </button>
+          )}
+        </div>
+      )}
+
+      <footer className="mt-4 flex flex-wrap items-center gap-3">
+        {post.link && (
+          <a
+            href={post.link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg bg-gray-100 hover:bg-gray-200 px-3 py-1 text-sm"
+          >
+            Open original from Reddit
+          </a>
+        )}
+
+        {/* Added title tooltip to warn about AI translation inaccuracies */}
+        {showTranslateButton && (
+          <button
+            className="inline-flex items-center gap-2 rounded-lg bg-gray-100 hover:bg-gray-200 px-3 py-1 text-sm"
+            onClick={() => setShowTranslation(v => !v)}
+            title="Translations are generated by AI and may contain inaccuracies"
+          >
+            {showTranslation ? "Show original" : "Show translation"}
+          </button>
+        )}
+
+        <span className="ml-auto text-xs text-gray-500">
+          score: {post.score}
+        </span>
+      </footer>
+    </article>
+  );
+}

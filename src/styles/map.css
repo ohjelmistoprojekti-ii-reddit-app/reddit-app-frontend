@@ -1,0 +1,32 @@
+/* Base variables — can be overridden by the theme */
+:root {
+  --map-fill: #e5e7eb;            /* default gray fill for countries */
+  --map-available: #93c5fd;       /* highlight for countries that have data */
+  --map-hover: #60a5fa;           /* hover color for available countries */
+  --map-stroke: #9ca3af;          /* country borders */
+}
+
+/* Apply to the whole world SVG */
+.world-svg path {
+  fill: var(--map-fill);
+  stroke: var(--map-stroke);
+  stroke-width: 0.5;
+  transition: fill 120ms ease-in-out, transform 120ms ease-in-out;
+}
+
+/* Countries that have data from the backend */
+.world-svg path.is-available {
+  fill: var(--map-available);
+  cursor: pointer;
+}
+
+/* Hover only applies to available countries */
+.world-svg path.is-available:hover {
+  fill: var(--map-hover);
+  transform: translateY(-0.5px);
+}
+
+/* Unavailable countries are not clickable */
+.world-svg path:not(.is-available) {
+  pointer-events: none;
+}
