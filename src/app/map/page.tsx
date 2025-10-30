@@ -6,7 +6,7 @@ import "@/styles/map.css";
 import { getCountrySubreddits, type CountrySubreddit } from "@/lib/api/getCountrySubreddits";
 import { getPostsByCountry } from "@/lib/api/getPostsByCountry";
 import type { CountryTopPost } from "@/types/map.types";
-import CountryPostsModal from "@/components/features/map/CountryPostsModal";
+import CountryStatsModal from "@/components/features/map/CountryStatsModal";
 
 export default function MapPage() {
   const [countries, setCountries] = useState<CountrySubreddit[]>([]);
@@ -61,10 +61,10 @@ export default function MapPage() {
         />
       </div>
 
-      <CountryPostsModal
+      <CountryStatsModal
         open={open}
         onClose={() => setOpen(false)}
-        countryName={selected?.name ?? ""}
+        countryName={selected?.subreddit ?? ""}
         posts={posts}
       />
     </>
