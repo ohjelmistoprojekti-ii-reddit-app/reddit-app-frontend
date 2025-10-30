@@ -112,22 +112,6 @@ export default function CountryStatsModal({ open, onClose, countryName, posts }:
               </button>
             </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex gap-3">
-              <button
-                className="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-semibold uppercase tracking-wide transition-colors"
-                onClick={onClose}
-              >
-                Previous
-              </button>
-              <button
-                className="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-semibold uppercase tracking-wide transition-colors"
-                onClick={() => setView("posts")}
-              >
-                Next
-              </button>
-            </div>
-
             <button
               className="w-full py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
               onClick={onClose}
