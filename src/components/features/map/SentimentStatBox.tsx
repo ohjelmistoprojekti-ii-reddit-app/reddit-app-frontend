@@ -25,7 +25,7 @@ export default function SentimentStatBox({ compoundValue }: { compoundValue: num
                     {compoundDisplayText}
                 </CardTitle>
                 <CardContent className="text-2xl font-bold text-foreground mt-1">
-                    {compoundValue}
+                    {compoundValue.toFixed(3)}
                 </CardContent>
             </div>
         </Card>
