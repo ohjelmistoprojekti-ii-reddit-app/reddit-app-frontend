@@ -1,6 +1,50 @@
-import Link from "next/link"
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Header() {
+  const [isAuthed, setIsAuthed] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    function check() {
+      try {
+        const token =
+          typeof window !== "undefined"
+            ? localStorage.getItem("access_token")
+            : null;
+        setIsAuthed(!!token);
+      } catch {}
+    }
+    check();
+
+    function onStorage(e: StorageEvent) {
+      if (e.key === "access_token" || e.key === "refresh_token") check();
+    }
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage", onStorage);
+    }
+
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("storage", onStorage);
+      }
+    };
+  }, [pathname]);
+
+  function handleSignOut() {
+    try {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+    } catch {}
+    setIsAuthed(false);
+    router.push("/");
+  }
+
   return (
     <header className="bg-white border-b border-border/60 shadow-sm">
       <div className="mx-auto max-w-7xl px-6">
@@ -33,17 +77,38 @@ export default function Header() {
           </nav>
 
           <div className="justify-self-end">
-            <Link
-              href="/signin"
-              className="inline-flex items-center rounded-2xl px-5 py-2.5 text-white text-base font-semibold
-                         bg-gradient-to-r from-orange-500 to-rose-500 shadow-md hover:shadow-lg
-                         transition-shadow focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
-            >
-              Sign In
-            </Link>
+            {isAuthed ? (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/"
+                  className="text-base font-medium hover:underline"
+                  title="Go to your account"
+                >
+                  My Account
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="inline-flex items-center rounded-2xl px-5 py-2.5 text-white text-base font-semibold
+                             bg-gradient-to-r from-rose-500 to-orange-500 shadow-md hover:shadow-lg
+                             transition-shadow focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="inline-flex items-center rounded-2xl px-5 py-2.5 text-white text-base font-semibold
+                           bg-gradient-to-r from-orange-500 to-rose-500 shadow-md hover:shadow-lg
+                           transition-shadow focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>
     </header>
-  )
+  );
 }
+
