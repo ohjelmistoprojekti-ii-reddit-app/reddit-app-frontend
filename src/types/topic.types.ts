@@ -32,13 +32,14 @@ export type SentimentValues = {
 }
 
 export type RedditTopic = {
-  _id: string;
+  topic_id: number;
   num_posts: number;
   posts: Post[];
   sentiment_values: SentimentValues;
   topic: string[];
   label: string;
   summary?: string;
+  subreddit: string;
 }
 
 type SentimentChartData = {

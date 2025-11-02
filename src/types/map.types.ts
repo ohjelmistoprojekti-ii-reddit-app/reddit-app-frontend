@@ -12,7 +12,7 @@ export type MapDialogPostProps = {
 
 }
 
-type CommentSentimentValues = {
+export type CommentSentimentValues = {
     average_compound: number,
     average_neg: number,
     average_neu: number,
