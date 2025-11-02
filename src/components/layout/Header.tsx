@@ -73,6 +73,14 @@ export default function Header() {
                   Map
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/subscription"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Subscription
+                </Link>
+              </li>
             </ul>
           </nav>
 
