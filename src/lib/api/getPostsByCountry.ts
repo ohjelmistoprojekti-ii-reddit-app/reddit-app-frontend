@@ -1,8 +1,10 @@
 import { CountryTopPost } from "@/types/map.types";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
+
 export async function getPostsByCountry(subreddit: string): Promise<CountryTopPost[]> {
   try {
-    const res = await fetch(`http://127.0.0.1:5000/countries/latest/${subreddit}`, {
+    const res = await fetch(`${BASE_URL}/countries/latest/${subreddit}`, {
       cache: "no-store",
     });
     if (!res.ok) return [];

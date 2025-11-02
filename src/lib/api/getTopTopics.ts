@@ -8,12 +8,14 @@ export type TopTopicsResponse = {
   topics: TopTopic[];
 }[];
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
+
 // Fetches top topics for a subreddit in last N days with limit
 export async function getTopTopics(subreddit: string, days: number, limit: number): Promise<TopTopic[]> {
-  // README shows `/posts/numbers/topics/...` — keep both to be safe
+  // README shows `/posts/numbers/topics/...` – keep both to be safe
   const urls = [
-    `http://127.0.0.1:5000/posts/numbers/topics/${subreddit}/${days}/${limit}`,
-    `http://127.0.0.1:5000/posts/topics/${subreddit}/${days}/${limit}`,
+    `${BASE_URL}/posts/numbers/topics/${subreddit}/${days}/${limit}`,
+    `${BASE_URL}/posts/topics/${subreddit}/${days}/${limit}`,
   ];
   let lastErr: any = null;
   for (const u of urls) {

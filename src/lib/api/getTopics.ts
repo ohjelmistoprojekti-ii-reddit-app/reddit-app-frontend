@@ -1,9 +1,11 @@
 import { RedditTopic } from "@/types/topic.types"
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
+
 export async function getTopics(subredditName: string, postType: string, numberOfPosts: number): Promise<RedditTopic[]> {
     console.log('fetching...')
     
-    const res = await fetch(`http://127.0.0.1:5000/posts/${subredditName}/${postType}/` + numberOfPosts.toString(), {
+    const res = await fetch(`${BASE_URL}/posts/${subredditName}/${postType}/` + numberOfPosts.toString(), {
         cache: "no-store"
     });
 
