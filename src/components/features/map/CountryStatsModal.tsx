@@ -1,13 +1,14 @@
 "use client";
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import type { CountryTopPost } from "@/types/map.types";
 import Modal from "./Modal";
 import SentimentChart from "../topic/SentimentChart";
 import SentimentStatBox from "./SentimentStatBox";
 import PostScoreStatBox from "./PostScoreStatBox";
 import PostCard from "./PostCard";
-import { getSentimentLabel } from "@/lib/helpers/getSentimentLabel";
-import { TrendingUp } from "lucide-react";
+import { TrendingUp, Lock } from "lucide-react";
+import { isAuthenticated } from "@/lib/utils/authUtils";
 
 interface Props {
   open: boolean;
@@ -16,10 +17,17 @@ interface Props {
   onClose: () => void;
 }
 
-export default function CountryStatsModal({ open, onClose, countryName, posts }: Props) {
+export default function CountryStatsModal({ 
+  open, 
+  onClose, 
+  countryName, 
+  posts
+}: Props) {
   const [view, setView] = useState<"stats" | "posts">("stats");
   const items = useMemo(() => posts.slice(0, 3), [posts]);
   const [postIndex, setPostIndex] = useState(0);
+  const router = useRouter();
+  const isLoggedIn = isAuthenticated();
 
   // Calculate average stats from all posts
   const avgStats = useMemo(() => {
@@ -52,6 +60,10 @@ export default function CountryStatsModal({ open, onClose, countryName, posts }:
   const prev = () => setPostIndex(i => (i - 1 + items.length) % items.length);
   const next = () => setPostIndex(i => (i + 1) % items.length);
 
+  const handleLoginRedirect = () => {
+    router.push('/login');
+  };
+
   if (!open) return null;
 
   return (
@@ -66,7 +78,7 @@ export default function CountryStatsModal({ open, onClose, countryName, posts }:
         </div>
 
         {/* Stats View */}
-        {view === "stats" && avgStats && (
+        {view === "stats" && avgStats && items.length > 0 && (
           <div className="space-y-6">
             {/* Popular Posts Section */}
             <div className="bg-orange-50 rounded-2xl p-6">
@@ -149,9 +161,36 @@ export default function CountryStatsModal({ open, onClose, countryName, posts }:
           </div>
         )}
 
-        {items.length === 0 && (
+        {/* Empty State - Login Required */}
+        {items.length === 0 && !isLoggedIn && (
+          <div className="text-center py-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-4">
+              <Lock className="w-8 h-8 text-orange-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Login Required
+            </h3>
+            <p className="text-gray-600 mb-6 max-w-sm mx-auto">
+              You need to be logged in to view trending topics from r/{countryName}
+            </p>
+            <button 
+              onClick={handleLoginRedirect}
+              className="inline-block px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
+            >
+              Log in to continue
+            </button>
+          </div>
+        )}
+
+        {/* Empty State - No Data (when logged in) */}
+        {items.length === 0 && isLoggedIn && (
           <div className="text-center text-gray-500 py-12">
-            For this country posts are not available
+            <p className="text-lg mb-2">No posts available</p>
+            <p className="text-sm">
+              Posts from r/{countryName} are not currently available.
+              <br />
+              Please try again later.
+            </p>
           </div>
         )}
       </div>
