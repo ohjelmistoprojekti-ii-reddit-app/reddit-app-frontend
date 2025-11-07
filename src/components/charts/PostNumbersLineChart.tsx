@@ -25,6 +25,12 @@ export default function PostNumbersLineChart({ subreddit, days = 7 }: Props) {
     return () => { mounted = false }
   }, [subreddit, days])
 
+  // Calculate interval to show approximately 7 ticks
+  const tickInterval = React.useMemo(() => {
+    if (!data || data.length === 0) return 0
+    return Math.floor(data.length / 7)
+  }, [data])
+
   return (
     <Card>
       <CardHeader>
@@ -37,7 +43,7 @@ export default function PostNumbersLineChart({ subreddit, days = 7 }: Props) {
           <ChartContainer config={{ posts: { label: "Posts" } }}>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={data} margin={{ left: 12, right: 12, top: 8, bottom: 0 }}>
-                <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} interval={0} />
+                <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} interval={tickInterval} />
                 <YAxis allowDecimals={false} width={40} />
                 <ChartTooltip cursor={false} content={<ChartTooltipContent labelKey="day" />} />
                 <Line dataKey="posts" type="monotone" dot={false} strokeWidth={2} />
