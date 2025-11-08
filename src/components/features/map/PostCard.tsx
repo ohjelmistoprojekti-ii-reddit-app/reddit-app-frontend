@@ -1,6 +1,8 @@
 "use client";
 import { useMemo, useState } from "react";
 import type { CountryTopPost } from "@/types/map.types";
+import SentimentChart from "../topic/SentimentChart";
+import SentimentStatBox from "./SentimentStatBox";
 
 function isImageUrl(url: string) {
   return /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(url);
@@ -47,6 +49,7 @@ export default function PostCard({
   const [showTranslation, setShowTranslation] = useState(false);
   const [expandedContent, setExpandedContent] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [showSentiment, setShowSentiment] = useState(false);
 
   const title = showTranslation && hasTranslation ? (post.title_eng ?? post.title) : post.title;
   const content = showTranslation && hasTranslation ? (post.content_eng ?? post.content) : post.content;
@@ -54,6 +57,16 @@ export default function PostCard({
 
   const showMoreContent = content && content.length > 240;
   const mediaAvailable = post.content_link && post.link && post.content_link !== post.link;
+
+  // Prepare sentiment data for chart
+  const sentimentChartData = useMemo(() => {
+    if (!post.sentiment_values) return [];
+    return [
+      { name: "positive", value: post.sentiment_values.average_pos },
+      { name: "neutral", value: post.sentiment_values.average_neu },
+      { name: "negative", value: post.sentiment_values.average_neg },
+    ];
+  }, [post.sentiment_values]);
 
   return (
     <div className="bg-orange-50 rounded-2xl p-6">
@@ -139,6 +152,55 @@ export default function PostCard({
           )}
         </div>
       </div>
+
+      {/* Sentiment Analysis Section */}
+      {post.sentiment_values && (
+        <div className="bg-white rounded-xl p-4 mb-4">
+          <button
+            className="w-full flex items-center justify-between text-left"
+            onClick={() => setShowSentiment(v => !v)}
+          >
+            <span className="text-sm font-medium text-gray-700">
+              📊 Show sentiment analysis
+            </span>
+            <span className="text-gray-500">
+              {showSentiment ? "▲" : "▼"}
+            </span>
+          </button>
+
+          {showSentiment && (
+            <div className="mt-4 space-y-4">
+              {/* Compound Sentiment Value */}
+              <div className="flex justify-center">
+                <SentimentStatBox compoundValue={post.sentiment_values.average_compound} />
+              </div>
+
+              {/* Sentiment Chart */}
+              <div className="flex items-center justify-center">
+                <div className="w-56 h-56">
+                  <SentimentChart data={sentimentChartData} />
+                </div>
+              </div>
+
+              {/* Sentiment Values Breakdown */}
+              <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                <div className="bg-green-50 rounded-lg p-2">
+                  <div className="text-green-700 font-semibold">Positive</div>
+                  <div className="text-green-900">{(post.sentiment_values.average_pos * 100).toFixed(1)}%</div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-2">
+                  <div className="text-gray-700 font-semibold">Neutral</div>
+                  <div className="text-gray-900">{(post.sentiment_values.average_neu * 100).toFixed(1)}%</div>
+                </div>
+                <div className="bg-red-50 rounded-lg p-2">
+                  <div className="text-red-700 font-semibold">Negative</div>
+                  <div className="text-red-900">{(post.sentiment_values.average_neg * 100).toFixed(1)}%</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Comments Section */}
       {commentsArray && commentsArray.length > 0 && (

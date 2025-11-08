@@ -82,21 +82,9 @@ export default function CountryStatsModal({
           <div className="space-y-6">
             {/* Popular Posts Section */}
             <div className="bg-orange-50 rounded-2xl p-6">
-              <h3 className="text-lg font-semibold mb-4">Popular posts today</h3>
-              
-              {/* First post title preview */}
-              <div className="bg-white rounded-xl p-4 mb-4">
-                <p className="text-sm font-medium mb-2 line-clamp-2">
-                  {items[0]?.title || "No title available"}
-                </p>
-                <button 
-                  className="text-xs text-gray-500 hover:text-gray-700"
-                  onClick={() => setView("posts")}
-                >
-                  See original
-                </button>
-              </div>
-
+                <h1 className="text-center font-bold text-2xl -mt-4">
+                  Average analysis in country
+                </h1>
               {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <PostScoreStatBox 
