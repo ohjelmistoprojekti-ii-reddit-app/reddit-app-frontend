@@ -23,7 +23,7 @@ export default function getSubscriptionsForCurrentUser() {
                     ...(token && { Authorization: `Bearer ${token}` }),
                 };
 
-                const res = await fetch(`http://127.0.0.1:5000/subscriptions/current-user`, {
+                const res = await fetch(`http://127.0.0.1:5000/api/subscriptions/current-user`, {
                     headers,
                     cache: "no-store",
                 });

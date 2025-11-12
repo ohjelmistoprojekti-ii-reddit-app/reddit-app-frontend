@@ -8,7 +8,7 @@ export type AuthResponse = {
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
 
 export async function loginApi(username: string, password: string): Promise<AuthResponse> {
-  const res = await fetch(`${BASE_URL}/auth/login`, {
+  const res = await fetch(`${BASE_URL}/api/authentication/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -20,7 +20,7 @@ export async function loginApi(username: string, password: string): Promise<Auth
 }
 
 export async function registerApi(username: string, email: string, password: string): Promise<AuthResponse> {
-  const res = await fetch(`${BASE_URL}/auth/register`, {
+  const res = await fetch(`${BASE_URL}/api/authentication/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, email, password }),
@@ -32,7 +32,7 @@ export async function registerApi(username: string, email: string, password: str
 }
 
 export async function refreshApi(refreshToken: string): Promise<AuthResponse> {
-  const res = await fetch(`${BASE_URL}/auth/refresh`, {
+  const res = await fetch(`${BASE_URL}/api/authentication/refresh`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${refreshToken}` },
     cache: "no-store",

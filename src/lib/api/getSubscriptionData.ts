@@ -17,7 +17,7 @@ export default function getSubscriptionData() {
                 ...(token && { Authorization: `Bearer ${token}` }),
             };
 
-            const res = await fetch(`http://127.0.0.1:5000/subscriptions/current-user/latest-analyzed`, {
+            const res = await fetch(`http://127.0.0.1:5000/api/subscriptions/current-user/latest-analyzed`, {
                 headers,
                 cache: "no-store",
             });

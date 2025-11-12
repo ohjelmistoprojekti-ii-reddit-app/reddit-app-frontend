@@ -16,7 +16,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000"
 
 // Fetches post numbers trend for a subreddit for last N days.
 export async function getPostNumbers(subreddit: string, days: number): Promise<PostNumbersPoint[]> {
-  const res = await fetch(`${BASE_URL}/posts/numbers/${subreddit}/${days}`, { cache: "no-store" });
+  const res = await fetch(`${BASE_URL}/api/statistics/${subreddit}/${days}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   const data: PostNumbersResponse = await res.json();
   const first = Array.isArray(data) ? data[0] : (data as any);

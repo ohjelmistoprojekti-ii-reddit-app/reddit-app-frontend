@@ -25,7 +25,7 @@ export async function getPostsByCountry(subreddit: string): Promise<CountryTopPo
     }
 
     // Make API request
-    const res = await fetch(`${BASE_URL}/countries/latest/${subreddit}`, {
+    const res = await fetch(`${BASE_URL}/api/countries/latest/${subreddit}`, {
       method: 'GET',
       headers,
       cache: "no-store",
