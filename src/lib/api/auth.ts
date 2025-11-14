@@ -39,5 +39,11 @@ export async function refreshApi(refreshToken: string): Promise<AuthResponse> {
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data?.msg || "Refresh failed");
+  
+  // Automatically save the new access token if provided
+  if (data.access_token && typeof window !== 'undefined') {
+    localStorage.setItem('access_token', data.access_token);
+  }
+  
   return data as AuthResponse;
 }
