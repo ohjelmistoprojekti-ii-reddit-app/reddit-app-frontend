@@ -109,20 +109,83 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Map styles */
   .world-map svg path {
     @apply fill-gray-300;
   }
+  
   #FI, #SE, #IT, #MX, #ES {
     @apply fill-orange-300;
   }
+  
   #FI:hover, #SE:hover, #IT:hover, #MX:hover, #ES:hover {
     @apply fill-orange-500 cursor-pointer;
   }
+  
+  /* Button and interactive elements */
   button:not([disabled]),
   [role="button"]:not([disabled]) {
     cursor: pointer;
+  }
+  
+  /* Improve touch targets on mobile */
+  @media (max-width: 640px) {
+    button,
+    [role="button"],
+    a {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Fix for iOS Safari bottom bar */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+}
+
+/* Custom utility classes for responsive design */
+@layer utilities {
+  .container-responsive {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Safe area insets for mobile devices */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
   }
 }

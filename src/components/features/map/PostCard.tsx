@@ -69,12 +69,12 @@ export default function PostCard({
   }, [post.sentiment_values]);
 
   return (
-    <div className="bg-orange-50 rounded-2xl p-6">
+    <div className="bg-orange-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
       {/* Post Header */}
-      <div className="bg-white rounded-xl p-4 mb-4">
+      <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4">
         <div className="flex items-start justify-between mb-2">
-          <div className="flex-1">
-            <h3 className="text-lg font-semibold leading-snug break-words mb-2">
+          <div className="flex-1 pr-2">
+            <h3 className="text-base sm:text-lg font-semibold leading-snug break-words mb-2">
               {title}
             </h3>
             {showTranslateButton && (
@@ -88,7 +88,7 @@ export default function PostCard({
             )}
           </div>
           {showNavigation && (
-            <div className="text-xs text-gray-500 ml-4">
+            <div className="text-xs text-gray-500 ml-2 flex-shrink-0">
               {currentIndex + 1} / {totalPosts}
             </div>
           )}
@@ -102,7 +102,7 @@ export default function PostCard({
               <img
                 src={post.content_link!}
                 alt={title || "media"}
-                className="w-full rounded-lg max-h-[360px] object-contain"
+                className="w-full rounded-lg max-h-[300px] sm:max-h-[360px] object-contain"
                 loading="lazy"
               />
             ) : (
@@ -136,7 +136,7 @@ export default function PostCard({
         )}
 
         {/* Score and Link */}
-        <div className="flex items-center justify-between pt-3 border-t">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-3 border-t">
           <span className="text-sm text-gray-600">
             Score: <span className="font-semibold">{post.score}</span>
           </span>
@@ -155,7 +155,7 @@ export default function PostCard({
 
       {/* Sentiment Analysis Section */}
       {post.sentiment_values && (
-        <div className="bg-white rounded-xl p-4 mb-4">
+        <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4">
           <button
             className="w-full flex items-center justify-between text-left"
             onClick={() => setShowSentiment(v => !v)}
@@ -163,7 +163,7 @@ export default function PostCard({
             <span className="text-sm font-medium text-gray-700">
               📊 Show sentiment analysis
             </span>
-            <span className="text-gray-500">
+            <span className="text-gray-500 text-sm sm:text-base">
               {showSentiment ? "▲" : "▼"}
             </span>
           </button>
@@ -172,12 +172,14 @@ export default function PostCard({
             <div className="mt-4 space-y-4">
               {/* Compound Sentiment Value */}
               <div className="flex justify-center">
-                <SentimentStatBox compoundValue={post.sentiment_values.average_compound} />
+                <div className="w-full sm:w-auto">
+                  <SentimentStatBox compoundValue={post.sentiment_values.average_compound} />
+                </div>
               </div>
 
               {/* Sentiment Chart */}
               <div className="flex items-center justify-center">
-                <div className="w-56 h-56">
+                <div className="w-48 h-48 sm:w-56 sm:h-56">
                   <SentimentChart data={sentimentChartData} />
                 </div>
               </div>
@@ -204,7 +206,7 @@ export default function PostCard({
 
       {/* Comments Section */}
       {commentsArray && commentsArray.length > 0 && (
-        <div className="bg-white rounded-xl p-4">
+        <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4">
           <button
             className="w-full flex items-center justify-between text-left"
             onClick={() => setShowComments(v => !v)}
@@ -212,13 +214,13 @@ export default function PostCard({
             <span className="text-sm font-medium text-gray-700">
               💬 Comments ({commentsArray.length})
             </span>
-            <span className="text-gray-500">
+            <span className="text-gray-500 text-sm sm:text-base">
               {showComments ? "▲" : "▼"}
             </span>
           </button>
 
           {showComments && (
-            <div className="mt-4 space-y-3 max-h-[300px] overflow-y-auto">
+            <div className="mt-4 space-y-3 max-h-[250px] sm:max-h-[300px] overflow-y-auto">
               {commentsArray.map((comment, idx) => (
                 <div 
                   key={idx}
@@ -234,15 +236,15 @@ export default function PostCard({
 
       {/* Navigation for posts */}
       {showNavigation && onPrev && onNext && totalPosts > 1 && (
-        <div className="flex gap-3 mt-4">
+        <div className="flex gap-2 sm:gap-3 mt-3 sm:mt-4">
           <button
-            className="flex-1 py-2 px-4 bg-white hover:bg-gray-50 rounded-lg text-sm font-medium"
+            className="flex-1 py-2 px-3 sm:px-4 bg-white hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors"
             onClick={onPrev}
           >
             ← Previous
           </button>
           <button
-            className="flex-1 py-2 px-4 bg-white hover:bg-gray-50 rounded-lg text-sm font-medium"
+            className="flex-1 py-2 px-3 sm:px-4 bg-white hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors"
             onClick={onNext}
           >
             Next →

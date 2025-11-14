@@ -1,32 +1,158 @@
-/* Base variables — can be overridden by the theme */
+/* Base variables – can be overridden by the theme */
 :root {
   --map-fill: #e5e7eb;            /* default gray fill for countries */
   --map-available: #93c5fd;       /* highlight for countries that have data */
   --map-hover: #60a5fa;           /* hover color for available countries */
   --map-stroke: #9ca3af;          /* country borders */
+  --map-dimmed: #f3f4f6;          /* dimmed color for non-selected regions */
 }
 
-/* Apply to the whole world SVG */
-.world-svg path {
+/* Map zoom container - allows scrolling within zoomed view */
+.map-zoom-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: #f9fafb;
+  scroll-behavior: smooth;
+}
+
+/* Map wrapper - centers the SVG and allows it to be larger than viewport */
+.map-zoom-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 20px;
+}
+
+/* SVG with zoom via viewBox - maintains aspect ratio and allows scrolling */
+.world-svg-zoom {
+  display: block;
+  width: 100%;
+  min-width: 800px;
+  height: auto;
+  transition: all 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Apply to all paths */
+.world-svg-zoom path {
   fill: var(--map-fill);
   stroke: var(--map-stroke);
   stroke-width: 0.5;
-  transition: fill 120ms ease-in-out, transform 120ms ease-in-out;
+  transition: fill 150ms ease-in-out, transform 150ms ease-in-out, opacity 150ms ease-in-out, stroke-width 200ms ease-in-out;
 }
 
 /* Countries that have data from the backend */
-.world-svg path.is-available {
+.world-svg-zoom path.is-available {
   fill: var(--map-available);
   cursor: pointer;
 }
 
 /* Hover only applies to available countries */
-.world-svg path.is-available:hover {
+.world-svg-zoom path.is-available:hover {
   fill: var(--map-hover);
-  transform: translateY(-0.5px);
+  transform: translateY(-1px);
+}
+
+/* Dimmed countries when filtering by region */
+.world-svg-zoom path.region-dimmed {
+  fill: var(--map-dimmed);
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 /* Unavailable countries are not clickable */
-.world-svg path:not(.is-available) {
+.world-svg-zoom path:not(.is-available):not(.region-dimmed) {
   pointer-events: none;
+}
+
+/* Increase stroke width when regions are selected for better separation */
+.world-svg-zoom[data-region="europe"] path,
+.world-svg-zoom[data-region="asia"] path,
+.world-svg-zoom[data-region="africa"] path,
+.world-svg-zoom[data-region="north_america"] path,
+.world-svg-zoom[data-region="south_america"] path {
+  stroke-width: 1.0;
+}
+
+.world-svg-zoom[data-region="europe"] path.is-available,
+.world-svg-zoom[data-region="asia"] path.is-available,
+.world-svg-zoom[data-region="africa"] path.is-available,
+.world-svg-zoom[data-region="north_america"] path.is-available,
+.world-svg-zoom[data-region="south_america"] path.is-available {
+  stroke-width: 1.3;
+}
+
+/* Mobile touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  .world-svg-zoom path.is-available {
+    stroke-width: 1;
+  }
+  
+  .world-svg-zoom path.is-available:active {
+    fill: var(--map-hover);
+    transform: scale(1.02);
+  }
+}
+
+/* Prevent text selection on map */
+.map-zoom-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Custom scrollbar styling */
+.map-zoom-container::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.map-zoom-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.map-zoom-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+}
+
+.map-zoom-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .map-zoom-wrapper {
+    padding: 15px;
+  }
+  
+  .world-svg-zoom {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 640px) {
+  .map-zoom-wrapper {
+    padding: 10px;
+  }
+  
+  .world-svg-zoom {
+    min-width: 500px;
+  }
+  
+  .world-svg-zoom path {
+    stroke-width: 0.4;
+  }
+  
+  .world-svg-zoom[data-region="europe"] path.is-available,
+  .world-svg-zoom[data-region="asia"] path.is-available,
+  .world-svg-zoom[data-region="africa"] path.is-available,
+  .world-svg-zoom[data-region="north_america"] path.is-available,
+  .world-svg-zoom[data-region="south_america"] path.is-available {
+    stroke-width: 1.0;
+  }
 }
