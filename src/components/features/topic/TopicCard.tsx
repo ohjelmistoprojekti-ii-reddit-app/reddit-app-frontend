@@ -47,7 +47,7 @@ export default function TopicCard({ topic } : TopicCardProps) {
                 </div>
                 {topic.summary && (
                 <div className="mt-2">
-                    <p className="text-sm text-muted-foreground leading-snug line-clamp-3">
+                    <p className="text-sm text-muted-foreground leading-snug line-clamp-3 hyphens-auto">
                     {topic.summary}
                     </p>
 
