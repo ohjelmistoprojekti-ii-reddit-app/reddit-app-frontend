@@ -21,7 +21,7 @@ export default function UnsubscribeButton() {
         };
 
         try {
-            const res = await fetch("http://127.0.0.1:5000/subscriptions/current-user/deactivate", {
+            const res = await fetch("http://127.0.0.1:5000/api/subscriptions/current-user/deactivate", {
                 method: "PATCH",
                 headers
             })

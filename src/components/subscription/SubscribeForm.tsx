@@ -36,7 +36,7 @@ export default function SubscribeForm() {
                 ...(token && { Authorization: `Bearer ${token}` }),
             };
 
-            const res = await fetch(`http://127.0.0.1:5000/subscriptions/current-user/add/${parsedSubreddit}/${analysisType}`, {
+            const res = await fetch(`http://127.0.0.1:5000/api/subscriptions/current-user/add/${parsedSubreddit}/${analysisType}`, {
                 method: "POST",
                 headers
             })
