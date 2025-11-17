@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import UnsubscribeButton from "./UnsubscribeButton";
 import { CircleCheckBig } from 'lucide-react';
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SubscriptionSection() {
 
@@ -14,11 +15,19 @@ export default function SubscriptionSection() {
 
     const { data, loading, error, notFound } = getSubscriptionsForCurrentUser();
 
-    if(notFound) router.replace("/subscribe");
+    useEffect(() => {
+        if(notFound) {
+            router.replace("/subscribe");
+        }
+    }, [notFound, router])
 
-    if(data === null || loading) return <Loader />
+    if(notFound) return <Loader />;
 
-    if(error) return <p>Error: {error}</p>
+    if(loading) return <Loader />;
+
+    if(error) return <p>Error: {error}</p>;
+
+    if(!data || data.length === 0) return <p>No data found</p>;
 
     return(
         <div className="flex flex-col items-center gap-6 mx-auto p-6">
