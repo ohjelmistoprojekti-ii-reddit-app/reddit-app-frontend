@@ -21,7 +21,7 @@ export default function SubscriptionSection() {
     if(error) return <p>Error: {error}</p>
 
     return(
-        <div className="flex flex-col items-center gap-6 w-full max-w-6xl mx-auto p-6">
+        <div className="flex flex-col items-center gap-6 mx-auto p-6">
             <Card className="flex items-center w-full max-w-xl shadow-lg">
                 <CardContent className="flex flex-col items-center p-6 space-y-4">
                     <CircleCheckBig className="text-muted-foreground w-16 h-16"/>

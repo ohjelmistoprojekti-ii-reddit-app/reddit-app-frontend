@@ -15,7 +15,10 @@ export default function SubscriptionDashboard() {
         case "topics":
             
             return(
-                <TopicsGrid topics={data.data}/>
+                <div className="w-full max-w-6xl mx-auto">
+                   <TopicsGrid topics={data.data}/> 
+                </div>
+                
             )
     
         case "posts":

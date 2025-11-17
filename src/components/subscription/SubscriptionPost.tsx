@@ -23,11 +23,17 @@ export default function SubscriptionPost({ post }: PostsProps) {
         { name: "negative", value: post.sentiment_values.average_neg },
     ];
 
+    const removeWWW = (url: string) => {
+        const u = new URL(url);
+        u.hostname = u.hostname.replace(/^www\./, "");
+        return u.toString();
+    }
+
     const showMoreContent = post.content && post.content.length > 240;
-    const mediaAvailable = post.content_link && post.link && post.content_link !== post.link;
+    const mediaAvailable = post.content_link && post.link && removeWWW(post.content_link) !== post.link;
 
     return(
-         <Card className="py-10 px-6">
+         <Card className="py-10 px-6 w-full max-w-3xl">
             <CardHeader className="flex flex-col">
                 <CardTitle className="text-xl mb-2">
                     <h3 className="text-lg font-semibold">{post.title}</h3>                                                                                                
@@ -54,6 +60,18 @@ export default function SubscriptionPost({ post }: PostsProps) {
                     )}
                 </div>
                 )}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4 pt-3 border-t">
+                    {post.link && (
+                        <a
+                            href={post.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-blue-600 hover:underline"
+                        >
+                            Open on Reddit
+                        </a>
+                    )}
+                </div>
                 <div 
                     className="grid lg:grid-cols-2 md:grid-cols-1 place-items-center p-6 gap-6 bg-muted rounded-lg">
                     <div className="flex flex-col items-center gap-4">

@@ -18,7 +18,7 @@ export default function PostMediaPreview({ contentLink, title }: {
                     href={contentLink!}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 text-blue-600 underline text-sm"
+                    className="inline-flex items-center gap-2 text-blue-600 hover:underline text-sm"
                 >
                     Open media link
                 </a>
