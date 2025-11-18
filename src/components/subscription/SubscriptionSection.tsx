@@ -5,6 +5,7 @@ import SubscriptionDashboard from "./SubscriptionDashboard";
 import Loader from "./Loader";
 import { Card, CardContent } from "@/components/ui/card";
 import UnsubscribeButton from "./UnsubscribeButton";
+import ErrorMessage from "./ErrorMessage";
 import { CircleCheckBig } from 'lucide-react';
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -25,9 +26,9 @@ export default function SubscriptionSection() {
 
     if(loading) return <Loader />;
 
-    if(error) return <p>Error: {error}</p>;
+    if(error) return <ErrorMessage msg={error} />;
 
-    if(!data || data.length === 0) return <p>No data found</p>;
+    if(!data || data.length === 0) return <ErrorMessage msg="No data found" />;
 
     return(
         <div className="flex flex-col items-center gap-6 mx-auto p-6">
