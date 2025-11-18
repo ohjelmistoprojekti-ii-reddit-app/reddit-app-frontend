@@ -1,6 +1,6 @@
 "use client"
 
-import getSubscriptionsForCurrentUser from "@/lib/api/getSubscriptionsForCurrentUser";
+import useFetchSubscriptionsForCurrentUser from "@/hooks/useFetchSubscriptionsForCurrentUser";
 import SubscriptionDashboard from "./SubscriptionDashboard";
 import Loader from "./Loader";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,7 +14,7 @@ export default function SubscriptionSection() {
 
     const router = useRouter();
 
-    const { data, loading, error, notFound } = getSubscriptionsForCurrentUser();
+    const { data, loading, error, notFound } = useFetchSubscriptionsForCurrentUser();
 
     useEffect(() => {
         if(notFound) {

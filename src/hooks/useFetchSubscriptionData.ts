@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
 
-export default function getSubscriptionData() {
-
+export default function useFetchSubscriptionData() {
     const [data, setData] = useState<TopicsSubcriptionResponse | PostsSubscriptionReponse| null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
@@ -24,11 +23,9 @@ export default function getSubscriptionData() {
                 cache: "no-store",
             });
 
-        
             if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
 
             const json = await res.json();
-            console.log(json);
             setData(json);
         } catch (err) {
                 setError((err as Error).message);
@@ -40,5 +37,4 @@ export default function getSubscriptionData() {
     }, []);
 
     return { data, error, loading }
-    
 }

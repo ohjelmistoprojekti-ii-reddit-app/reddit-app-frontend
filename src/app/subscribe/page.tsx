@@ -88,7 +88,7 @@ function SubscribeSuccessMessage() {
                     Successfully subscribed to a Subreddit analysis
                 </AlertDescription>
                 <ul className="list-disc list-inside text-center space-y-2">
-                    <li>You'll find your analysis in the {" "} 
+                    <li>You can find your analysis in the {" "} 
                         <Link 
                             href="/subscription"
                             className="text-blue-600 hover:underline"

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 
-export default function mapError({
+export default function MapError({
     error,
     reset,
 }: {

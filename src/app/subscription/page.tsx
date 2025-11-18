@@ -7,7 +7,7 @@ import Loader from "@/components/subscription/Loader";
 
 export default function SubscriptionPage() {
 
-    const [isAuthenticated, setIsAuthenticated] = useState<Boolean | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const router = useRouter();
 
     useEffect(() => {

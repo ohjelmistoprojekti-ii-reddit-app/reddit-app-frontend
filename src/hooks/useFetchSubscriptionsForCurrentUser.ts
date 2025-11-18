@@ -8,14 +8,13 @@ type UserSubscription = {
     active: Boolean
 }
 
-export default function getSubscriptionsForCurrentUser() {
+export default function useFetchSubscriptionsForCurrentUser() {
     const [data, setData] = useState<UserSubscription[] | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
- 
-
-     useEffect(() => {
+    
+        useEffect(() => {
         async function fetchData() {
             try {
                 const token = localStorage.getItem("access_token");
@@ -35,7 +34,6 @@ export default function getSubscriptionsForCurrentUser() {
                 if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
 
                 const json = await res.json();
-                console.log(json);
                 setData(json);
             } catch (err) {
                     setError((err as Error).message);

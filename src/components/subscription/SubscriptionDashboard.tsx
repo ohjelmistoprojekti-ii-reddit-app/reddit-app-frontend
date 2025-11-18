@@ -1,11 +1,11 @@
-import getSubscriptionData from "@/lib/api/getSubscriptionData"
+import useFetchSubscriptionData from "@/hooks/useFetchSubscriptionData";
 import Loader from "./Loader";
 import TopicsGrid from "../features/topic/TopicsGrid";
 import PostsDashboard from "./PostsDashboard";
 
 export default function SubscriptionDashboard() {
 
-    const { data, loading, error } = getSubscriptionData();
+    const { data, loading, error } = useFetchSubscriptionData();
     
     if(data === null || loading) return <Loader />
     
