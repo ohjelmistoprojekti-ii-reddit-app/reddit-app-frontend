@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import WorldSvg from "../../../assets/world.svg";
 import "@/styles/map.css";
 import { getCountrySubreddits, type CountrySubreddit } from "@/lib/api/getCountrySubreddits";
 import { getPostsByCountry } from "@/lib/api/getPostsByCountry";
 import type { CountryTopPost } from "@/types/map.types";
 import CountryStatsModal from "@/components/features/map/CountryStatsModal";
-import { isAuthenticated } from "@/lib/utils/authUtils";
 
 type Region = "all" | "europe" | "asia" | "africa" | "north_america" | "south_america";
 
@@ -37,18 +35,12 @@ export default function MapPage() {
   const [posts, setPosts] = useState<CountryTopPost[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<Region>("all");
-  const router = useRouter();
 
   const svgRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const availableIds = useMemo(() => new Set(countries.map(c => c.id)), [countries]);
 
-  // Check authentication on component mount
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      router.push("/login");
-    }
-  }, [router]);
+
 
   useEffect(() => {
     (async () => {

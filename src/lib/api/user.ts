@@ -1,8 +1,4 @@
-/**
- * User API
- * Functions for user account management
- */
-
+//User API. Functions for user account management
 import { getAuthHeaders, getRefreshToken, saveTokens, clearTokens } from '../utils/authUtils';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
@@ -51,9 +47,7 @@ export async function getCurrentUser(): Promise<UserInfo> {
   return await res.json();
 }
 
-/**
- * Delete user account
- */
+// Delete user account
 export async function deleteAccount(): Promise<{ msg: string }> {
   const res = await fetch(`${BASE_URL}/api/authentication/delete_account`, {
     method: "DELETE",
