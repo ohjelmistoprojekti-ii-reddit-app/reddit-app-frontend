@@ -1,6 +1,8 @@
 import { PostsSubscriptionReponse, TopicsSubcriptionResponse } from "@/types/subscription.types";
 import { useEffect, useState } from "react";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
+
 export default function getSubscriptionData() {
 
     const [data, setData] = useState<TopicsSubcriptionResponse | PostsSubscriptionReponse| null>(null);
@@ -17,7 +19,7 @@ export default function getSubscriptionData() {
                 ...(token && { Authorization: `Bearer ${token}` }),
             };
 
-            const res = await fetch(`http://127.0.0.1:5000/api/subscriptions/current-user/latest-analyzed`, {
+            const res = await fetch(`${BASE_URL}/api/subscriptions/current-user/latest-analyzed`, {
                 headers,
                 cache: "no-store",
             });

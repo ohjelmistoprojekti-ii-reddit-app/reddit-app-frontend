@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
+
 export default function UnsubscribeButton() {
     const[loading, setLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export default function UnsubscribeButton() {
         };
 
         try {
-            const res = await fetch("http://127.0.0.1:5000/api/subscriptions/current-user/deactivate", {
+            const res = await fetch(`${BASE_URL}/api/subscriptions/current-user/deactivate`, {
                 method: "PATCH",
                 headers
             })

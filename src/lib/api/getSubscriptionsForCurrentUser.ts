@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
+
 type UserSubscription = {
     subreddit: String
     analysis_type: String
@@ -23,7 +25,7 @@ export default function getSubscriptionsForCurrentUser() {
                     ...(token && { Authorization: `Bearer ${token}` }),
                 };
 
-                const res = await fetch(`http://127.0.0.1:5000/api/subscriptions/current-user`, {
+                const res = await fetch(`${BASE_URL}/api/subscriptions/current-user`, {
                     headers,
                     cache: "no-store",
                 });
