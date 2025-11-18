@@ -7,20 +7,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 
-function SubredditNotFoundMessage() {
-    return(
-        <div className="flex flex-col items-center space-y-4">
-            <h2 className="text-lg font-bold mb-4 text-red-500">Subreddit was not found</h2>
-            <p>Try to search for a Subreddit with preferably 1000+ weekly contributions</p>
-        </div>
-    )
-}
-
-export default function SubscribeForm() {
+export default function SubscribeForm({ onStatus }: {
+    onStatus: (status: "success" |"notFound" | "error", msg: string) => void
+}) {
     const [subreddit, setSubreddit] = useState("");
     const [analysisType, setAnalysisType] = useState("topics");
     const [loading, setLoading] = useState(false);
-    const [subredditNotFound, setSubredditNotFound] = useState(false);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -41,16 +33,26 @@ export default function SubscribeForm() {
                 headers
             })
 
-            if (res.status === 404) setSubredditNotFound(true);
+            if (res.status === 404) {
+                onStatus("notFound", "Subreddit was not found");
+                toast.error("Error subscribing to Subreddit")
+                setSubreddit("");
+                return
+            };
 
-            if (!res.ok) throw new Error("Failed to subscribe to subreddit");
+            if (!res.ok) {
+                const body = await res.json();
+                onStatus("error", body.error || "There was an error.");
+                
+            }
 
-            toast.success('Successfully subscribed to Subreddit');
+            onStatus("success", "Successfully subscribed to Subreddit");
+            toast.success("Subscribed to Subreddit");
             setSubreddit("");
             setAnalysisType("topics");
-            setSubredditNotFound(false);
 
         } catch (error) {
+            onStatus("error", `There was an error`);
             toast.error("Error subscribing to Subreddit");
         } finally {
             setLoading(false);
@@ -71,7 +73,6 @@ export default function SubscribeForm() {
                     onChange={(e) => setSubreddit(e.target.value)}
                     required
                 />
-                {subredditNotFound && <p className="text-red-500">Subreddit not found</p>}
             </div>
 
             <div className="space-y-2">
@@ -95,7 +96,6 @@ export default function SubscribeForm() {
             <Button type="submit" disabled={loading}>
                  {loading ? "Subscribing..." : "Subscribe"}
             </Button>
-            {subredditNotFound && <SubredditNotFoundMessage />}
         </form>
     )
 }
