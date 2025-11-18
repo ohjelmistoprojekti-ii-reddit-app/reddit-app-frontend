@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
 
 type UserSubscription = {
-    subreddit: String
-    analysis_type: String
-    active: Boolean
+    subreddit: string
+    analysis_type: string
+    active: boolean
 }
 
 export default function useFetchSubscriptionsForCurrentUser() {
