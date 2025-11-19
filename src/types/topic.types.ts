@@ -1,5 +1,5 @@
 export type TopicsGridProps = {
-  topics: RedditTopic[];
+  topics: RedditTopic[] | null;
 }
 
 export type TopicCardProps = {
