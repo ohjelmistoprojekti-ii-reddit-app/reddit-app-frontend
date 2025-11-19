@@ -23,8 +23,9 @@ export default function LoginPage() {
       if (res.access_token) localStorage.setItem("access_token", res.access_token);
       if (res.refresh_token) localStorage.setItem("refresh_token", res.refresh_token);
       router.push("/");
-    } catch (err: any) {
-      setError(err.message || "Login failed");
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Login failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

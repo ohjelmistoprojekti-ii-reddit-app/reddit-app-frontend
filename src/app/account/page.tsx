@@ -32,12 +32,13 @@ export default function AccountPage() {
       try {
         const userData = await getCurrentUser();
         setUser(userData);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Failed to fetch user:", err);
-        setError(err.message || "Failed to load account information");
+        const errorMessage = err instanceof Error ? err.message : "Failed to load account information";
+        setError(errorMessage);
         
         // If authentication fails, redirect to login
-        if (err.message?.includes("Token expired") || err.message?.includes("authentication")) {
+        if (err instanceof Error && (err.message?.includes("Token expired") || err.message?.includes("authentication"))) {
           clearTokens();
           router.push("/login");
         }
@@ -47,7 +48,7 @@ export default function AccountPage() {
     }
 
     fetchUser();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [router]);
 
   async function handleDeleteAccount() {
     const confirmed = window.confirm(
@@ -66,12 +67,13 @@ export default function AccountPage() {
       clearTokens();
       alert("Your account has been successfully deleted.");
       router.push("/");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to delete account:", err);
-      setError(err.message || "Failed to delete account");
+      const errorMessage = err instanceof Error ? err.message : "Failed to delete account";
+      setError(errorMessage);
       
       // If authentication fails during deletion, redirect to login
-      if (err.message?.includes("Token expired") || err.message?.includes("authentication")) {
+      if (err instanceof Error && (err.message?.includes("Token expired") || err.message?.includes("authentication"))) {
         clearTokens();
         router.push("/login");
       }

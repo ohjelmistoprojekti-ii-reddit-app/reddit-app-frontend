@@ -31,8 +31,9 @@ export default function RegisterPage() {
         if (loginRes.refresh_token) localStorage.setItem("refresh_token", loginRes.refresh_token);
       }
       router.push("/");
-    } catch (err: any) {
-      setError(err.message || "Registration failed");
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Registration failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

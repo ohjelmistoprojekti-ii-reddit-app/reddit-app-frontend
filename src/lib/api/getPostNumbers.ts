@@ -19,10 +19,13 @@ export async function getPostNumbers(subreddit: string, days: number): Promise<P
   const res = await fetch(`${BASE_URL}/api/statistics/${subreddit}/${days}`, { cache: "no-store" });
   if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   const data: PostNumbersResponse = await res.json();
-  const first = Array.isArray(data) ? data[0] : (data as any);
-  const arr = (first as any)?.daily ?? (first as any)?.posts ?? [];
+  const first = Array.isArray(data) ? data[0] : (data as Record<string, unknown>);
+  const arr = (first as Record<string, unknown>)?.daily ?? (first as Record<string, unknown>)?.posts ?? [];
   // Normalize & sort by date ASC
-  return (arr as any[]).map((d:any) => ({ day: d.day ?? d.date ?? d._id, posts: Number(d.posts ?? d.count ?? 0) }))
+  return (arr as Array<Record<string, unknown>>).map((d: Record<string, unknown>) => ({ 
+    day: (d.day ?? d.date ?? d._id) as string, 
+    posts: Number(d.posts ?? d.count ?? 0) 
+  }))
     .filter(d => d.day)
     .sort((a,b) => (new Date(a.day).getTime()) - (new Date(b.day).getTime()));
 }
