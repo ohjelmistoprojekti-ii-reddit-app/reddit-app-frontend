@@ -45,12 +45,42 @@ export function setRefreshToken(token: string): void {
 }
 
 /**
+ * Save tokens to localStorage
+ * @param accessToken - The access token to save
+ * @param refreshToken - Optional refresh token to save
+ */
+export function saveTokens(accessToken: string, refreshToken?: string): void {
+  if (typeof window === 'undefined') return;
+  setAccessToken(accessToken);
+  if (refreshToken) {
+    setRefreshToken(refreshToken);
+  }
+}
+
+/**
  * Clear all tokens from localStorage
  */
 export function clearTokens(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem('access_token');
   localStorage.removeItem('refresh_token');
+}
+
+/**
+ * Get authorization headers with Bearer token
+ * @returns Headers object with Authorization header
+ */
+export function getAuthHeaders(): Record<string, string> {
+  const token = getAccessToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  return headers;
 }
 
 /**
