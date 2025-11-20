@@ -32,7 +32,7 @@ export default function TopicCard({ topic } : TopicCardProps) {
 
     return(
         <Card>
-            <CardHeader className="flex gap-4 justify-between space-y-0 pb-1">
+            <CardHeader className="flex gap-4 justify-between space-y-0 pb-2">
                 <CardTitle className="text-lg pt-1">
                     {topic.label}
                 </CardTitle>
@@ -45,8 +45,10 @@ export default function TopicCard({ topic } : TopicCardProps) {
                         {compoundDisplayText}
                     </span>
                 </div>
+            </CardHeader>
+            <CardContent className="text-sm">
                 {topic.summary && (
-                <div className="mt-2">
+                <div className="mb-4">
                     <p className="text-sm text-muted-foreground leading-snug line-clamp-3 hyphens-auto">
                     {topic.summary}
                     </p>
@@ -75,8 +77,6 @@ export default function TopicCard({ topic } : TopicCardProps) {
                     </Dialog>
                 </div>
                 )}
-            </CardHeader>
-            <CardContent className="text-sm">
                 <SentimentChart data={chartData}/>
             </CardContent>
             <CardFooter className="flex items-center gap-4 justify-between space-y-0 pb-2">

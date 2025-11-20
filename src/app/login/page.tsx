@@ -6,6 +6,7 @@ import { loginApi } from "@/lib/api/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -22,7 +23,15 @@ export default function LoginPage() {
       const res = await loginApi(username, password);
       if (res.access_token) localStorage.setItem("access_token", res.access_token);
       if (res.refresh_token) localStorage.setItem("refresh_token", res.refresh_token);
-      router.push("/");
+      
+      // Show success toast notification
+      toast.success("Successfully logged in!", {
+        description: "Welcome back!",
+        duration: 3000,
+      });
+      
+      // Redirect to account page
+      router.push("/account");
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Login failed";
       setError(errorMessage);
