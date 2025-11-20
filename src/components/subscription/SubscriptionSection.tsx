@@ -31,17 +31,19 @@ export default function SubscriptionSection() {
     if(!data || data.length === 0) return <ErrorMessage msg="No data found" />;
 
     return(
-        <div className="flex flex-col items-center gap-6 mx-auto p-6">
+        <div className="min-h-[70vh] flex flex-col items-center gap-4 md:gap-6 mx-auto p-4 md:p-6">
             <Card className="flex items-center w-full max-w-xl shadow-lg">
-                <CardContent className="flex flex-col items-center p-6 space-y-4">
-                    <CircleCheckBig className="text-muted-foreground w-16 h-16"/>
-                    <h2>You are subscribed to</h2>
-                    <h1 className="text-2xl font-bold mb-4 text-primary">{`r/${data[0].subreddit}`}</h1>
-                    <p>{`Analysis type: ${data[0].analysis_type}`}</p>
+                <CardContent className="flex flex-col items-center p-4 md:p-6 space-y-4 w-full">
+                    <CircleCheckBig className="text-muted-foreground w-12 h-12 md:w-16 md:h-16"/>
+                    <h2 className="text-base md:text-lg">You are subscribed to</h2>
+                    <h1 className="text-xl md:text-2xl font-bold mb-2 md:mb-4 text-primary text-center break-words">{`r/${data[0].subreddit}`}</h1>
+                    <p className="text-sm md:text-base text-center">{`Analysis type: ${data[0].analysis_type}`}</p>
                     <UnsubscribeButton />
                 </CardContent>
             </Card>
-            <SubscriptionDashboard />
+            <div className="w-full">
+                <SubscriptionDashboard />
+            </div>
         </div>
     )
         

@@ -22,5 +22,9 @@ export default function SubscriptionPage() {
 
     if(isAuthenticated === null) return <Loader />
 
-    return <SubscriptionSection />
+    return (
+        <div className="min-h-screen w-full">
+            <SubscriptionSection />
+        </div>
+    )
 }
