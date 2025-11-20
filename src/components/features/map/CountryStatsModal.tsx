@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import type { CountryTopPost } from "@/types/map.types";
 import Modal from "./Modal";
 import SentimentChart from "../topic/SentimentChart";
+import SentimentStatBox from "./SentimentStatBox";
 import PostScoreStatBox from "./PostScoreStatBox";
 import PostCard from "./PostCard";
 import { TrendingUp, Lock } from "lucide-react";
@@ -91,6 +92,7 @@ export default function CountryStatsModal({
                   content={avgStats.score} 
                   icon={TrendingUp}
                 />
+                <SentimentStatBox compoundValue={avgStats.compound} />
               </div>
 
               {/* Sentiment Chart - Full Width, Better Sizing */}
