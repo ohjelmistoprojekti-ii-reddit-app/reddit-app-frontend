@@ -1,7 +1,7 @@
 "use client"
 
 import { SentimentChartProps } from "@/types/topic.types"
-import { Pie, PieChart, Cell } from "recharts"
+import { Pie, PieChart, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts"
 import {
   ChartConfig,
   ChartContainer,
@@ -10,6 +10,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+
 export const description = "A donut chart"
 
 const chartConfig = {
@@ -31,14 +32,23 @@ export default function SentimentChart({ data }: SentimentChartProps) {
     return (
         <ChartContainer
             config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
+            className="w-full aspect-square"
             >
             <PieChart>
                 <ChartTooltip
                     cursor={false}
                     content={<ChartTooltipContent hideLabel />}
                 />
-                <Pie data={data} dataKey="value" nameKey="name" innerRadius={60}>
+                <Pie 
+                  data={data} 
+                  dataKey="value" 
+                  nameKey="name" 
+                  innerRadius={40}
+                  outerRadius={80}
+                  paddingAngle={2}
+                  cx="50%"
+                  cy="50%"
+                >
                   {data?.map((entry) => (
                     <Cell 
                       key={entry.name} 
@@ -46,7 +56,7 @@ export default function SentimentChart({ data }: SentimentChartProps) {
                   ))}
                 </Pie>
                 <ChartLegend 
-                    className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center" 
+                    className="flex flex-wrap gap-2 justify-center mt-4" 
                     content={<ChartLegendContent nameKey="name" />}
                 />
             </PieChart>

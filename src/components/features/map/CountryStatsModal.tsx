@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import type { CountryTopPost } from "@/types/map.types";
 import Modal from "./Modal";
 import SentimentChart from "../topic/SentimentChart";
-import SentimentStatBox from "./SentimentStatBox";
 import PostScoreStatBox from "./PostScoreStatBox";
 import PostCard from "./PostCard";
 import { TrendingUp, Lock } from "lucide-react";
@@ -68,7 +67,7 @@ export default function CountryStatsModal({
 
   return (
     <Modal open={open} onClose={onClose}>
-      <div className="min-h-[400px] sm:min-h-[500px]">
+      <div className="min-h-[500px] sm:min-h-[600px] md:min-h-[700px] max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="text-center mb-4 sm:mb-6">
           <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide mb-1">
@@ -85,26 +84,25 @@ export default function CountryStatsModal({
                 <h1 className="text-center font-bold text-xl sm:text-2xl -mt-2 sm:-mt-4 mb-4">
                   Average analysis in country
                 </h1>
-              {/* Stats Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
+              {/* Stats Grid - Single Column on Mobile */}
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 mb-6">
                 <PostScoreStatBox 
                   title="score" 
                   content={avgStats.score} 
                   icon={TrendingUp}
                 />
-                <SentimentStatBox compoundValue={avgStats.compound} />
               </div>
 
-              {/* Sentiment Chart */}
-              <div className="bg-white rounded-xl p-3 sm:p-4 flex items-center justify-center">
-                <div className="w-48 h-48 sm:w-56 sm:h-56">
+              {/* Sentiment Chart - Full Width, Better Sizing */}
+              <div className="bg-white rounded-xl p-4 sm:p-6 flex items-center justify-center w-full">
+                <div className="w-full max-w-xs sm:max-w-sm h-auto aspect-square flex items-center justify-center">
                   <SentimentChart data={avgStats.chartData} />
                 </div>
               </div>
 
               {/* Comments indicator */}
               <button 
-                className="w-full mt-3 sm:mt-4 text-center text-sm text-gray-600 hover:text-gray-800 flex items-center justify-center gap-2"
+                className="w-full mt-4 sm:mt-6 text-center text-sm text-gray-600 hover:text-gray-800 flex items-center justify-center gap-2 py-2"
                 onClick={() => setView("posts")}
               >
                 <span>💬</span>

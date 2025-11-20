@@ -184,21 +184,6 @@ export default function PostCard({
                 </div>
               </div>
 
-              {/* Sentiment Values Breakdown */}
-              <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                <div className="bg-green-50 rounded-lg p-2">
-                  <div className="text-green-700 font-semibold">Positive</div>
-                  <div className="text-green-900">{(post.sentiment_values.average_pos * 100).toFixed(1)}%</div>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-2">
-                  <div className="text-gray-700 font-semibold">Neutral</div>
-                  <div className="text-gray-900">{(post.sentiment_values.average_neu * 100).toFixed(1)}%</div>
-                </div>
-                <div className="bg-red-50 rounded-lg p-2">
-                  <div className="text-red-700 font-semibold">Negative</div>
-                  <div className="text-red-900">{(post.sentiment_values.average_neg * 100).toFixed(1)}%</div>
-                </div>
-              </div>
             </div>
           )}
         </div>

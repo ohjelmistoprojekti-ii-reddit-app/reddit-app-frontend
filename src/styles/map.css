@@ -15,6 +15,8 @@
   overflow: auto;
   background: #f9fafb;
   scroll-behavior: smooth;
+  /* Enable horizontal and vertical scrolling on mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Map wrapper - centers the SVG and allows it to be larger than viewport */
@@ -34,6 +36,8 @@
   min-width: 800px;
   height: auto;
   transition: all 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Prevent touch delay */
+  touch-action: manipulation;
 }
 
 /* Apply to all paths */
@@ -135,13 +139,13 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .map-zoom-wrapper {
-    padding: 10px;
+    padding: 12px;
   }
   
   .world-svg-zoom {
-    min-width: 500px;
+    min-width: 550px;
   }
   
   .world-svg-zoom path {
@@ -154,5 +158,38 @@
   .world-svg-zoom[data-region="north_america"] path.is-available,
   .world-svg-zoom[data-region="south_america"] path.is-available {
     stroke-width: 1.0;
+  }
+}
+
+@media (max-width: 640px) {
+  .map-zoom-wrapper {
+    padding: 10px;
+  }
+  
+  .world-svg-zoom {
+    min-width: 450px;
+  }
+  
+  .world-svg-zoom path {
+    stroke-width: 0.4;
+  }
+  
+  .world-svg-zoom[data-region="europe"] path.is-available,
+  .world-svg-zoom[data-region="asia"] path.is-available,
+  .world-svg-zoom[data-region="africa"] path.is-available,
+  .world-svg-zoom[data-region="north_america"] path.is-available,
+  .world-svg-zoom[data-region="south_america"] path.is-available {
+    stroke-width: 1.0;
+  }
+}
+
+/* Extra small devices - landscape orientation */
+@media (max-width: 480px) {
+  .map-zoom-wrapper {
+    padding: 8px;
+  }
+  
+  .world-svg-zoom {
+    min-width: 400px;
   }
 }

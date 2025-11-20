@@ -1,4 +1,4 @@
-import { Card, CardTitle, CardContent } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card"
 import { DynamicIcon } from "lucide-react/dynamic"
 
 export default function SentimentStatBox({ compoundValue }: { compoundValue: number}) {
@@ -10,23 +10,36 @@ export default function SentimentStatBox({ compoundValue }: { compoundValue: num
         : "meh"
     const compoundDisplayText =
     compoundValue >= 0.05
-        ? "positive"
+        ? "Positive"
         : compoundValue <= -0.05
-        ? "negative"
-        : "neutral"
+        ? "Negative"
+        : "Neutral"
+
+    // Color based on sentiment
+    const bgColor = compoundValue >= 0.05 
+        ? "bg-green-100"
+        : compoundValue <= -0.05
+        ? "bg-red-100"
+        : "bg-amber-100"
+
+    const iconColor = compoundValue >= 0.05 
+        ? "text-green-600"
+        : compoundValue <= -0.05
+        ? "text-red-600"
+        : "text-amber-600"
 
     return(
-         <Card className="grid grid-cols-2 rounded-2xl p-4">
-            <div className="flex size-16 items-center justify-center rounded-full bg-accent">
-                <DynamicIcon name={smileyIcon} size={48}/>
+         <Card className="flex items-center justify-center rounded-2xl p-6 gap-4">
+            <div className={`flex size-20 items-center justify-center rounded-full ${bgColor}`}>
+                <DynamicIcon name={smileyIcon} size={40} className={iconColor}/>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-start">
                 <CardTitle className="text-sm font-medium text-muted-foreground tracking-wide uppercase">
-                    {compoundDisplayText}
+                    Overall Sentiment
                 </CardTitle>
-                <CardContent className="text-2xl font-bold text-foreground mt-1">
-                    {compoundValue.toFixed(3)}
-                </CardContent>
+                <div className="text-2xl font-bold text-foreground mt-1">
+                    {compoundDisplayText}
+                </div>
             </div>
         </Card>
     )
