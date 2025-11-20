@@ -1,10 +1,12 @@
 import { CountryTopPost } from "@/types/map.types";
+import { fetchWithTokenRefresh } from "../utils/tokenRefresh";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
 
 /**
  * Fetches posts for a specific country subreddit with JWT authentication
- * @param subreddit - The subreddit name (e.g., "suomi", "sweden")
+ * Automatically renews access token if it has expired (401 error)
+ * @param subreddit -The subreddit name (e.g., "suomi", "sweden")
  * @returns Array of top posts for the country
  */
 export async function getPostsByCountry(subreddit: string): Promise<CountryTopPost[]> {
@@ -24,17 +26,20 @@ export async function getPostsByCountry(subreddit: string): Promise<CountryTopPo
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    // Make API request
-    const res = await fetch(`${BASE_URL}/api/countries/latest/${subreddit}`, {
-      method: 'GET',
-      headers,
-      cache: "no-store",
-    });
+    // Make API request with automatic token refresh
+    const res = await fetchWithTokenRefresh(
+      `${BASE_URL}/api/countries/latest/${subreddit}`,
+      {
+        method: 'GET',
+        headers,
+        cache: "no-store",
+      }
+    );
 
     // Handle errors
     if (!res.ok) {
       if (res.status === 401) {
-        console.error('Unauthorized: Login required or token expired');
+        console.error('Unauthorized: Login required or token expired and refresh failed');
       }
       return [];
     }

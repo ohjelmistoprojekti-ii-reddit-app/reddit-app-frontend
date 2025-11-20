@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchWithTokenRefresh } from "@/lib/utils/tokenRefresh";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:5000";
 
@@ -14,7 +15,7 @@ export default function useFetchSubscriptionsForCurrentUser() {
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
     
-        useEffect(() => {
+    useEffect(() => {
         async function fetchData() {
             try {
                 const token = localStorage.getItem("access_token");
@@ -24,10 +25,14 @@ export default function useFetchSubscriptionsForCurrentUser() {
                     ...(token && { Authorization: `Bearer ${token}` }),
                 };
 
-                const res = await fetch(`${BASE_URL}/api/subscriptions/current-user`, {
-                    headers,
-                    cache: "no-store",
-                });
+                // Use fetchWithTokenRefresh to automatically refresh the token
+                const res = await fetchWithTokenRefresh(
+                    `${BASE_URL}/api/subscriptions/current-user`,
+                    {
+                        headers,
+                        cache: "no-store",
+                    }
+                );
 
                 if (res.status === 404) setNotFound(true);
 
@@ -36,13 +41,13 @@ export default function useFetchSubscriptionsForCurrentUser() {
                 const json = await res.json();
                 setData(json);
             } catch (err) {
-                    setError((err as Error).message);
+                setError((err as Error).message);
             } finally {
-                    setLoading(false);
+                setLoading(false);
             }
         }
         fetchData();
-        }, []);
+    }, []);
 
     return { data, error, loading, notFound };
 }
