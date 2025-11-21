@@ -28,7 +28,7 @@ export default function UnsubscribeButton() {
                 headers
             })
 
-            if (!res.ok) throw new Error("Failed to subscribe to subreddit");
+            if (!res.ok) throw new Error("Failed to unsubscribe");
 
             toast.success("Successfully unsubscribed");
 

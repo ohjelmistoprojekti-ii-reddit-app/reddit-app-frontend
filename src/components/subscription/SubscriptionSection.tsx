@@ -3,7 +3,7 @@
 import useFetchSubscriptionsForCurrentUser from "@/hooks/useFetchSubscriptionsForCurrentUser";
 import SubscriptionDashboard from "./SubscriptionDashboard";
 import Loader from "./Loader";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import UnsubscribeButton from "./UnsubscribeButton";
 import ErrorMessage from "./ErrorMessage";
 import { CircleCheckBig } from 'lucide-react';
@@ -40,6 +40,9 @@ export default function SubscriptionSection() {
                     <p className="text-sm md:text-base text-center">{`Analysis type: ${data[0].analysis_type}`}</p>
                     <UnsubscribeButton />
                 </CardContent>
+                <CardFooter>
+                    <p className="text-sm text-center">Please not that the subscription will be automatically deactivated after 2 weeks of inactivity</p>
+                </CardFooter>
             </Card>
             <div className="w-full">
                 <SubscriptionDashboard />

@@ -8,6 +8,7 @@ export default function useFetchSubscriptionData() {
     const [data, setData] = useState<TopicsSubcriptionResponse | PostsSubscriptionReponse| null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
     
     useEffect(() => {
         async function fetchData() {
@@ -28,6 +29,8 @@ export default function useFetchSubscriptionData() {
                     }
                 );
 
+                if (res.status === 404) setNotFound(true);
+
                 if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
 
                 const json = await res.json();
@@ -41,5 +44,5 @@ export default function useFetchSubscriptionData() {
         fetchData();
     }, []);
 
-    return { data, error, loading }
+    return { data, error, loading, notFound }
 }

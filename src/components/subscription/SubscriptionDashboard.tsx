@@ -2,14 +2,20 @@ import useFetchSubscriptionData from "@/hooks/useFetchSubscriptionData";
 import Loader from "./Loader";
 import TopicsGrid from "../features/topic/TopicsGrid";
 import PostsDashboard from "./PostsDashboard";
+import DataNotFoundMessage from "./DataNotFoundMessage";
+import ErrorMessage from "./ErrorMessage";
 
 export default function SubscriptionDashboard() {
 
-    const { data, loading, error } = useFetchSubscriptionData();
+    const { data, loading, error, notFound } = useFetchSubscriptionData();
     
-    if(data === null || loading) return <Loader />
+    if(notFound) return <DataNotFoundMessage />
     
-    if(error) return <p>Error: {error}</p>
+    if(loading) return <Loader />
+    
+    if(error) return <ErrorMessage msg={error}/>
+
+    if(!data) return <ErrorMessage msg="No data found"/>
 
     switch (data.type) {
         case "topics":

@@ -37,7 +37,7 @@ export default function SubscribeForm({ onStatus }: {
 
             if (res.status === 404) {
                 onStatus("notFound", "Subreddit was not found");
-                toast.error("Error subscribing to Subreddit")
+                toast.error("Error subscribing to Subreddit");
                 setSubreddit("");
                 return
             };
@@ -45,7 +45,8 @@ export default function SubscribeForm({ onStatus }: {
             if (!res.ok) {
                 const body = await res.json();
                 onStatus("error", body.error || "There was an error.");
-                
+                toast.error(`Error: ${body.error}`);
+                return
             }
 
             onStatus("success", "Successfully subscribed to Subreddit");
