@@ -136,10 +136,32 @@ export default function AccountPage() {
                     <Mail className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">User ID</p>
-                    <p className="text-sm font-mono text-gray-700 break-all">{user.id}</p>
+                    <p className="text-sm text-gray-600">Email</p>
+                    <p className="text-lg font-semibold text-gray-900">{user.email || 'Not provided'}</p>
                   </div>
                 </div>
+
+                {user.last_login && (
+                  <div className="flex items-center gap-3 pt-3 border-t border-gray-200">
+                    <div className="flex items-center justify-center w-10 h-10 bg-green-100 rounded-full">
+                      <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Last Login</p>
+                      <p className="text-sm font-medium text-gray-700">
+                        {new Date(user.last_login).toLocaleString('fi-FI', {
+                          year: 'numeric',
+                          month: 'numeric',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Account Actions */}
