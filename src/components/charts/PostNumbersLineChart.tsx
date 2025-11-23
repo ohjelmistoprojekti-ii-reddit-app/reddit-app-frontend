@@ -14,6 +14,16 @@ type Props = {
 export default function PostNumbersLineChart({ subreddit, days = 7 }: Props) {
   const [data, setData] = React.useState<PostNumbersPoint[] | null>(null)
   const [error, setError] = React.useState<string | null>(null)
+  const [windowWidth, setWindowWidth] = React.useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  )
+
+  // Track window resize
+  React.useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   React.useEffect(() => {
     let mounted = true
@@ -25,11 +35,13 @@ export default function PostNumbersLineChart({ subreddit, days = 7 }: Props) {
     return () => { mounted = false }
   }, [subreddit, days])
 
-  // Calculate interval to show approximately 7 ticks
+  // Calculate interval to show appropriate number of ticks based on screen size
   const tickInterval = React.useMemo(() => {
     if (!data || data.length === 0) return 0
-    return Math.floor(data.length / 7)
-  }, [data])
+    const isMobile = windowWidth < 640
+    const targetTicks = isMobile ? 4 : 7 // Show fewer ticks on mobile
+    return Math.max(Math.floor(data.length / targetTicks), 1)
+  }, [data, windowWidth])
 
   return (
     <Card>

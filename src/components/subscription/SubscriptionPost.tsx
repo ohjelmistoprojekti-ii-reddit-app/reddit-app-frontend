@@ -71,23 +71,32 @@ export default function SubscriptionPost({ post }: PostsProps) {
                             Open on Reddit
                         </a>
                     )}
+                    {post.comments && post.comments.length > 0 && (
+                        <button
+                            onClick={() => setShowComments(true)}
+                            className="text-sm text-gray-700 hover:text-gray-900 flex items-center gap-1"
+                        >
+                            <span>💬</span>
+                            Comments ({post.comments.length})
+                        </button>
+                    )}
                 </div>
                 <div 
-                    className="grid lg:grid-cols-2 md:grid-cols-1 place-items-center p-6 gap-6 bg-muted rounded-lg">
-                    <div className="flex flex-col items-center gap-4">
+                    className="grid lg:grid-cols-2 md:grid-cols-1 place-items-start p-6 gap-6 bg-muted rounded-lg">
+                    <div className="flex flex-col items-center gap-4 w-full">
                         <PostScoreStatBox title="score" content={post.score} icon={TrendingUp}/>
                         <SentimentStatBox compoundValue={post.sentiment_values.average_compound}/>
                     </div>
-                    <div className="w-[250px] h-[250px]">
+                    <div className="w-[250px] h-[250px] self-center">
                         <SentimentChart data={chartData}/>
                     </div>
                 </div>
-                <DialogCommentSection
-                    comments={post.comments}
-                    open={showComments}
-                    setOpen={setShowComments}
-                />
             </CardContent>
+            <DialogCommentSection
+                comments={post.comments}
+                open={showComments}
+                setOpen={setShowComments}
+            />
         </Card>
     )
 }

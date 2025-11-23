@@ -18,6 +18,16 @@ const DEFAULT_PALETTE = ["#4F46E5","#22C55E","#EF4444","#F59E0B","#3B82F6","#8B5
 export default function TopTopicsBarChart({ subreddit, days = 7, limit = 7, palette = DEFAULT_PALETTE }: Props) {
   const [data, setData] = React.useState<TopTopic[] | null>(null)
   const [error, setError] = React.useState<string | null>(null)
+  const [windowWidth, setWindowWidth] = React.useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1024
+  )
+
+  // Track window resize
+  React.useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   React.useEffect(() => {
     let mounted = true
@@ -34,6 +44,17 @@ export default function TopTopicsBarChart({ subreddit, days = 7, limit = 7, pale
     [data]
   )
 
+  // Calculate tick interval based on screen size
+  const tickInterval = React.useMemo(() => {
+    if (!chartData || chartData.length === 0) return 0
+    const isMobile = windowWidth < 640
+    if (isMobile && chartData.length > 5) {
+      // On mobile with many items, show every other label
+      return 1
+    }
+    return 0 // Show all labels otherwise
+  }, [chartData, windowWidth])
+
   return (
     <Card>
       <CardHeader>
@@ -46,7 +67,7 @@ export default function TopTopicsBarChart({ subreddit, days = 7, limit = 7, pale
           <ChartContainer config={{ count: { label: "Posts" } }}>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={chartData} margin={{ left: 12, right: 12, top: 8, bottom: 0 }}>
-                <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={8} interval={0} height={60} angle={-15} textAnchor="end" />
+                <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={8} interval={tickInterval} height={60} angle={-15} textAnchor="end" />
                 <YAxis allowDecimals={false} width={40} />
                 <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
                 <Bar dataKey="count">

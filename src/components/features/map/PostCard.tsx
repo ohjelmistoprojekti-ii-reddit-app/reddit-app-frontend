@@ -69,7 +69,7 @@ export default function PostCard({
   }, [post.sentiment_values]);
 
   return (
-    <div className="bg-orange-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+    <div className="bg-orange-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 overflow-visible">
       {/* Post Header */}
       <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4">
         <div className="flex items-start justify-between mb-2">
@@ -155,7 +155,7 @@ export default function PostCard({
 
       {/* Sentiment Analysis Section */}
       {post.sentiment_values && (
-        <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4">
+        <div className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4 overflow-visible">
           <button
             className="w-full flex items-center justify-between text-left"
             onClick={() => setShowSentiment(v => !v)}
@@ -169,7 +169,7 @@ export default function PostCard({
           </button>
 
           {showSentiment && (
-            <div className="mt-4 space-y-4">
+            <div className="mt-4 space-y-4 overflow-visible">
               {/* Compound Sentiment Value */}
               <div className="flex justify-center">
                 <div className="w-full sm:w-auto">
@@ -178,7 +178,7 @@ export default function PostCard({
               </div>
 
               {/* Sentiment Chart */}
-              <div className="flex items-center justify-center">
+              <div className="flex items-center justify-center py-4 overflow-visible">
                 <div className="w-48 h-48 sm:w-56 sm:h-56">
                   <SentimentChart data={sentimentChartData} />
                 </div>
