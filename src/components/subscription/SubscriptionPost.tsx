@@ -73,7 +73,7 @@ export default function SubscriptionPost({ post }: PostsProps) {
                     )}
                 </div>
                 <div 
-                    className="grid lg:grid-cols-2 md:grid-cols-1 place-items-start p-6 gap-6 bg-muted rounded-lg overflow-visible">
+                    className="grid lg:grid-cols-2 md:grid-cols-1 place-items-start lg:place-items-center p-6 gap-6 bg-muted rounded-lg overflow-visible">
                     <div className="flex flex-col items-center gap-4 w-full max-w-full">
                         <PostScoreStatBox title="score" content={post.score} icon={TrendingUp}/>
                         <SentimentStatBox compoundValue={post.sentiment_values.average_compound}/>
