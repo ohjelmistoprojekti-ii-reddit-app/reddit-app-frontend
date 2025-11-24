@@ -1,4 +1,6 @@
 # Reddit Trend Analyzer
+🔗 [Live link to the deployed application](https://reddit-analyzer-app-nine.vercel.app/)  
+
 
 This is the frontend service for a web application that:
 - fetches **trending Reddit topics**
@@ -7,18 +9,30 @@ This is the frontend service for a web application that:
 - and enables **filtering** topics by sentiment (positive, negative, neutral) and category (e.g., technology, entertainment, sports)
 
 ## Table of contents
->🛠 [Tech stack](#tech-stack)  
+>🖼️  [Screenshots](#screenshots)   
+>🛠  [Tech stack](#tech-stack)  
 >🚀 [Installation and dev setup](#installation-and-local-dev-setup)  
 >⚡ [Configure backend fetch](#configure-fetch-functions)  
->🧩 [Project structure](#project-structure-suggestion)  
+>🧩 [Project structure](#project-structure)  
 >↪️ [App routing](#app-routing)  
 >🌍 [World map component](#world-map-component)   
 >💎 [Shadcn/ui components](#shadcnui-components)    
 >🏦 [Basic architecture plan](#basic-architecture-plan)  
->⭐ [UI layout plan](#ui-layout-plan)
 
 > [!NOTE] 
 > This project was created as part of the Software Development Project II course at Haaga-Helia University of Applied Sciences, Finland. It is not affiliated with or endorsed by Reddit.
+
+## Screenshots
+<p float="left">
+  <h4>Home page </h1>
+  <img src="./public/images/screenshot_home_page.png" height="300" width="600" />
+  <h4>Trending topics </h1>
+  <img src="./public/images/screenshot_trending_topics.png" height="300" width="600"  />
+  <h4>World map</h1>
+  <img src="./public/images/screenshot_world_map.png" height="300" width="600" />
+  <h4>Trending topics </h1>
+  <img src="./public/images/screenshot_country_post.png" height="300"  />
+</p>
 
 ## Tech stack
 
@@ -93,40 +107,33 @@ const topics = await getLatestTopicsDb("technology");
 ```
 See available options for subredditName at [backend README](https://github.com/ohjelmistoprojekti-ii-reddit-app/reddit-app-backend#get-latest-analyzed-posts-from-the-database)
 
-## Project structure suggestion
-A best practice Next.js project structure by Binaya Bajracharya shared on [DEV Community](https://dev.to/bajrayejoon/best-practices-for-organizing-your-nextjs-15-2025-53ji) that we could follow:
+## Project structure
+
 ```
+assets/
+|    └── world.svg
 src/
 ├── app/                   # App Router
 │   ├── layout.tsx         # Root layout
 │   ├── page.tsx           # Homepage
 │   └── (routes)/          # Grouped routes
-├── components/            # Shared components
-│   ├── ui/                # UI components
-│   └── features/          # Feature-specific components
+├── components/            # React components
 ├── lib/                   # Utility functions
 ├── hooks/                 # Custom React hooks
 ├── styles/                # Global styles
-├── types/                 # TypeScript type definitions
-└── context/               # React Context providers
+├── tests/                 # Tests and setup
+└── types/                 # TypeScript type definitions
 ```
 
 ## App routing
-Routing at the moment:
 ```
-app (home/trending topics -> '/')
-├── layout.tsx (root layout)
-├── page.tsx
-|   
-└── map (world map -> '/map')
-    ├── layout.tsx (for accommodating @dialog parallel routing) 
-    ├── page.tsx
-    │
-    └── @dialog (slot passed to the map layout)
-        ├── default.tsx (placeholder page rendering 'null')
-        └── dialog (country dialog page -> '/map/dialog?country=${subredditName}')
-            └── page.tsx
-
+app 
+├── /account
+├── /login
+├── /map
+├── /register
+├── /subscribe
+└── /subscription
 ```
 The app is utilizing parallel routing [read more from Next.js docs](https://nextjs.org/docs/app/api-reference/file-conventions/parallel-routes) to simultaneously render two pages within the same layout. Country specific popup/dialog page is therefore rendered per onClick on top of the world map. 
 
@@ -197,27 +204,45 @@ npx shadcn@latest add ${componentName}
 ```
 Newly installed components will appear in the components/ui -folder.
 
-## Basic architecture plan
+## Basic architecture
 The frontend application handles the UI and user interaction using React. Frontend fetches and posts data via REST APIs exposed by Flask backend.
+
+Parts of architechture diagrams and flows were produced with help of ChatGPT.
 
 ```mermaid
 sequenceDiagram
     Browser ->> Next.js: Page request
     Next.js->> Flask REST API: HTTP request
     Flask REST API ->> Next.js: JSON response
-    Note right of Browser: Server components<br/>(default)
-    Next.js -->>Flask REST API: Next.js API Route call
-    Note right of Next.js: Optional:<br/>Form handling, <br/>auth token storage, <br/> proxy requests?
-    Note right of Browser: Client components<br/>(for interactivity)
-    Flask REST API -->> Next.js: JSON response
+    Note right of Browser: Server components
+    
+    Note right of Browser: Client components
+    
     Next.js ->> Browser: Page render
 ```
+### Auth flow
+```mermaid
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant A as Flask backend (REST API)
 
-## UI layout plan
-A front page sketch of trending Reddit topics ideated by the development team and produced using ChatGPT.  
-- **Trending posts** page showing top Reddit topics and displaying their sentiment based on public discussion
-- **Map view** available to navigate the world map to discover the most discussed topics geographically
-- **Topic search** for text search on the desired Reddit topic
-- **Sign in - Sign out** for user login  
+    Note over C,A: 1. LOGIN
+    C->>A: POST /auth/login (username/password)
+    A-->>C: accessToken + refreshToken
+    C->>C: Save tokens in localStorage
 
-![UI demo layout](./public/images/ui_layout.png)
+    Note over C,A: 2. USE PROTECTED ENDPOINT
+    C->>A: GET /api/resource (Authorization: Bearer accessToken)
+    A-->>C: Protected data
+
+    Note over C,A: 3. ACCESS TOKEN EXPIRED → REFRESH FLOW
+    C->>A: POST /auth/refresh (send refreshToken from localStorage)
+    A-->>C: New accessToken (+ optional new refreshToken)
+    C->>C: Update tokens in localStorage
+
+    Note over C,A: 4. LOGOUT
+    C->>C: Remove accessToken + refreshToken from localStorage
+    C->>A: POST /auth/logout(optional)
+    A-->>C: OK
+```
