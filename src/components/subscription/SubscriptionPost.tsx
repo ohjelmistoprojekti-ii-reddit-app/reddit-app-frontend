@@ -82,12 +82,12 @@ export default function SubscriptionPost({ post }: PostsProps) {
                         <SentimentChart data={chartData}/>
                     </div>
                 </div>
+            </CardContent>
             <DialogCommentSection
                 comments={post.comments}
                 open={showComments}
                 setOpen={setShowComments}
             />
-            </CardContent>
         </Card>
     )
 }
