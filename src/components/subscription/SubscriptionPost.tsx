@@ -82,12 +82,12 @@ export default function SubscriptionPost({ post }: PostsProps) {
                     )}
                 </div>
                 <div 
-                    className="grid lg:grid-cols-2 md:grid-cols-1 place-items-start p-6 gap-6 bg-muted rounded-lg">
-                    <div className="flex flex-col items-center gap-4 w-full">
+                    className="grid lg:grid-cols-2 md:grid-cols-1 place-items-start p-6 gap-6 bg-muted rounded-lg overflow-visible">
+                    <div className="flex flex-col items-center gap-4 w-full max-w-full">
                         <PostScoreStatBox title="score" content={post.score} icon={TrendingUp}/>
                         <SentimentStatBox compoundValue={post.sentiment_values.average_compound}/>
                     </div>
-                    <div className="w-[250px] h-[250px] self-center">
+                    <div className="w-full max-w-[250px] h-[250px] mx-auto">
                         <SentimentChart data={chartData}/>
                     </div>
                 </div>

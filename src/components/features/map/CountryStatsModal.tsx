@@ -97,7 +97,7 @@ export default function CountryStatsModal({
 
               {/* Sentiment Chart - Full Width, Better Sizing */}
               <div className="bg-white rounded-xl p-4 sm:p-6 flex items-center justify-center w-full">
-                <div className="w-full max-w-xs sm:max-w-sm h-auto aspect-square flex items-center justify-center">
+                <div className="w-full max-w-[240px] h-[240px] sm:max-w-sm sm:h-auto sm:aspect-square flex items-center justify-center mx-auto">
                   <SentimentChart data={avgStats.chartData} />
                 </div>
               </div>

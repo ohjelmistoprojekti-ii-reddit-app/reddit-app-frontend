@@ -179,7 +179,7 @@ export default function PostCard({
 
               {/* Sentiment Chart */}
               <div className="flex items-center justify-center py-4 overflow-visible">
-                <div className="w-48 h-48 sm:w-56 sm:h-56">
+                <div className="w-full max-w-[200px] h-[200px] sm:max-w-[224px] sm:h-[224px] mx-auto">
                   <SentimentChart data={sentimentChartData} />
                 </div>
               </div>
