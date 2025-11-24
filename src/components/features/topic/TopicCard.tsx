@@ -31,7 +31,7 @@ export default function TopicCard({ topic } : TopicCardProps) {
         : "neutral"
 
     return(
-        <Card>
+        <Card data-testid="topic-card">
             <CardHeader className="flex gap-4 justify-between space-y-0 pb-2">
                 <CardTitle className="text-lg pt-1">
                     {topic.label}

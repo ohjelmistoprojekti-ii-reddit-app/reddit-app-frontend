@@ -54,7 +54,7 @@ export default function PostNumbersLineChart({ subreddit, days = 7 }: Props) {
         {data && data.length > 0 && (
           <ChartContainer config={{ posts: { label: "Posts" } }}>
             <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={data} margin={{ left: 12, right: 12, top: 8, bottom: 0 }}>
+              <LineChart data={data} margin={{ left: 12, right: 12, top: 8, bottom: 0 }} data-testid="posts-line-chart">
                 <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} interval={tickInterval} />
                 <YAxis allowDecimals={false} width={40} />
                 <ChartTooltip cursor={false} content={<ChartTooltipContent labelKey="day" />} />

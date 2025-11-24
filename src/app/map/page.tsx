@@ -102,7 +102,7 @@ export default function MapPage() {
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col">
       {/* Page Title */}
-      <div className="w-full bg-gradient-to-r from-orange-500 to-amber-400 py-6 md:py-8 shadow-md">
+      <div className="w-full bg-gradient-to-r from-orange-500 to-amber-400 py-6 md:py-8 shadow-md" data-testid="map-header">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white text-center tracking-tight">
             Reddit Map
@@ -114,7 +114,7 @@ export default function MapPage() {
       </div>
 
       {/* Region Filter */}
-      <div className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10">
+      <div className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-10" data-testid="map-region-filter">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <span className="text-sm font-medium text-gray-700 mr-2 hidden sm:inline">

@@ -66,7 +66,7 @@ export default function TopTopicsBarChart({ subreddit, days = 7, limit = 7, pale
         {data && data.length > 0 && (
           <ChartContainer config={{ count: { label: "Posts" } }}>
             <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={chartData} margin={{ left: 12, right: 12, top: 8, bottom: 0 }}>
+              <BarChart data={chartData} margin={{ left: 12, right: 12, top: 8, bottom: 0 }} data-testid="topics-bar-chart">
                 <XAxis dataKey="name" tickLine={false} axisLine={false} tickMargin={8} interval={tickInterval} height={60} angle={-15} textAnchor="end" />
                 <YAxis allowDecimals={false} width={40} />
                 <ChartTooltip cursor={false} content={<ChartTooltipContent />} />

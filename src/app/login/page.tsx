@@ -49,11 +49,11 @@ export default function LoginPage() {
           <form onSubmit={onSubmit} className="space-y-3">
             <div className="space-y-1">
               <label className="text-sm">Username</label>
-              <input className="w-full border rounded-md px-3 py-2 bg-white" value={username} onChange={(e) => setUsername(e.target.value)} required />
+              <input className="w-full border rounded-md px-3 py-2 bg-white" name="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
             </div>
             <div className="space-y-1">
               <label className="text-sm">Password</label>
-              <input className="w-full border rounded-md px-3 py-2 bg-white" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input className="w-full border rounded-md px-3 py-2 bg-white" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             <Button type="submit" disabled={loading} className="w-full">
               {loading ? "Signing in..." : "Sign in"}

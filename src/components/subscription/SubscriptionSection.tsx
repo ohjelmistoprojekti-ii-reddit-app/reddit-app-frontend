@@ -32,7 +32,7 @@ export default function SubscriptionSection() {
 
     return(
         <div className="min-h-[70vh] flex flex-col items-center gap-4 md:gap-6 mx-auto p-4 md:p-6">
-            <Card className="flex items-center w-full max-w-xl shadow-lg">
+            <Card className="flex items-center w-full max-w-xl shadow-lg" data-testid="subscription-info">
                 <CardContent className="flex flex-col items-center p-4 md:p-6 space-y-4 w-full">
                     <CircleCheckBig className="text-muted-foreground w-12 h-12 md:w-16 md:h-16"/>
                     <h2 className="text-base md:text-lg">You are subscribed to</h2>

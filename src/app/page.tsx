@@ -45,7 +45,7 @@ export default async function Home(
   return (
     <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-6xl mx-auto p-4 sm:p-6">
       {/* Header Section - Responsive */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4" data-testid="trending-topics-header">
         <h1 className="text-xl sm:text-2xl font-semibold">
           Trending Topics - {subreddit.charAt(0).toUpperCase() + subreddit.slice(1)}
         </h1>
@@ -59,7 +59,7 @@ export default async function Home(
       ) : (
         <>
           {/* Analytics Header - Responsive */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-2" data-testid="analytics-header">
             <h2 className="text-lg font-medium">Analytics</h2>
             <div className="w-full sm:w-auto">
               <TimeframeSelect selected={timeframe} />
