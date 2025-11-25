@@ -6,8 +6,8 @@ type Fixtures = {
 export const test = base.extend<Fixtures>({
     authenticatedPage: async ({ page }, use ) => {
         await page.goto("/login");
-        await page.fill("input[name=username]", "testuser789");
-        await page.fill("input[name=password]", "password789");
+        await page.fill("input[name=username]", "");
+        await page.fill("input[name=password]", "");
         await page.click("button[type=submit]");
 
         await page.waitForURL("/account")

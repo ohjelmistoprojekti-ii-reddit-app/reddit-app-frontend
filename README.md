@@ -62,50 +62,26 @@ Have the Flask backend server running and start the development server:
 ```bash
 npm run dev
 ```
-## Configure fetch functions
-Configure requests to Flask REST API with fetch functions:  
-#### Fetch from Reddit API and run backend analysis models 
-```typescript
-// Calling Flask endpoint: 'GET /posts/hot/{subreddit}'
+## API calls
 
-async function getPostsByCountry(
-    subredditName: string): Promise<CountryTopPost[]> {
-        //...
-    }
+### Auth
+|Method| Endpoint | Description | Protected |
+| :---------: | :-----------: | :-----------: | :-----------: |
+| **POST** | `api/authentication/login` | Login as a user | |
+| **POST** | `api/authentication/refresh` | Refresh access token |🔑 | 
+| **POST** | `api/authentication/register`| Register as a user | |
+| **DELETE** | `api/authentication/logout`| User logout |🔑 |
+| **DELETE** | `api/authentication/delete_account`| Delete user account |🔑 |
+| **GET** | `api/authentication/who_am_i`| Get current user info | 🔑|
 
-// Example request
-const posts = await getPostsByCountry("suomi");
-```
-```typescript
-// Calling Flask endpoint: 'GET /posts/{subreddit}/{type}/{amount}'
-
-async function getTopics(
-    subredditName: string, 
-    postType: string, 
-    numberOfPosts: number): Promise<RedditTopic[]> {
-    //...
-};
-
-// Example request
-const topics = await getTopics("programming", "hot", 100);
-```
-> [!WARNING]
-> Be mindful that the bigger the numberOfPosts, the longer the wait for frontend to render. At the moment using number of posts > 500 may cause fetch to timeout.
-
-#### Fetch analyzed data from backend MongoDB database
-```typescript
-// Calling Flask endpoint: 'GET /posts/latest/{subreddit}'
-
-async function getLatestTopicsDb(
-    subredditName: string): Promise<RedditTopic[]> {
-        //...
-    }
-
-
-// Example request
-const topics = await getLatestTopicsDb("technology");
-```
-See available options for subredditName at [backend README](https://github.com/ohjelmistoprojekti-ii-reddit-app/reddit-app-backend#get-latest-analyzed-posts-from-the-database)
+### Subscription
+|Method| Endpoint | Description |
+| :---------: | :-----------: | :-----------: |
+| **GET** | `api/subscriptions/type/{type}` | List of active subscriptions by analysis type = `topics` or `posts` | 
+| **GET** | `api/subscriptions/current-user` | List of active subscriptions for the current user |  
+| **POST** | `api/subscriptions/current-user/add/{subreddit}/{type}`| Create a new subscription for current user. Subreddit = `any subreddit`, type = `topics` or `posts` |
+| **PATCH** | `api/subscriptions/current-user/deactivate`| Deactivate subscription for current user | 
+| **GET** | `api/subscriptions/current-user/latest-analyzed`| Latest analyzed data for current user's active subscription |
 
 ## Project structure
 
