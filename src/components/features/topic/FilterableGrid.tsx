@@ -7,6 +7,7 @@ import SentimentSortSelect from "./SentimentSortSelect";
 import { TopicsGridProps, SentimentFilterType } from "@/types/topic.types";
 import { getSentimentLabel } from "@/lib/helpers/getSentimentLabel";
 import { sortTopicsBySentiment, SentimentSortType } from "@/lib/helpers/sortTopicsBySentiment";
+import TopicDateInfo from "./TopicDateInfo";
 
 export default function FilterableGrid({ topics } : TopicsGridProps) {
   const [filter, setFilter] = useState<SentimentFilterType>("all");
@@ -25,6 +26,7 @@ export default function FilterableGrid({ topics } : TopicsGridProps) {
         <SentimentSortSelect sortType={sortType} setSortType={setSortType} />
       </div>
       <TopicsGrid topics={sortedAndFilteredTopics}/>
+      <TopicDateInfo topics={topics} />
     </>
   );
 }

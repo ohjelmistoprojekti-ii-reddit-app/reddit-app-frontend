@@ -40,6 +40,7 @@ export type RedditTopic = {
   label: string;
   summary?: string;
   subreddit: string;
+  timestamp: string;
 }
 
 type SentimentChartData = {
